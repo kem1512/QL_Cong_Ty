@@ -1,3 +1,8 @@
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+
+@section('content')
+    @include('layouts.navbars.auth.topnav', ['title' => 'Nhân Sự'])
+
 <style>
     #adddropdown {
         top: -100%;
@@ -46,67 +51,77 @@
 </style>
 
 <!-- ADD dropdow  -->
-<!-- Full screen modal -->
-<div>
-    <div id="adddropdown" class="bg-light fixed-top">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-                aria-controls="offcanvasNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i
-                            class="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-                <div class="offcanvas-body">
-                    <h1 id="add-title" style="text-align: center">Thêm Nhân Sự</h1>
-                    <form class="mt-8" action="">
-                        <div class="mb-3 row ml-7">
-                            <label for="mansadd" class="col-sm-4 col-form-label">Mã Nhân Sự</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="mansadd"
-                                    placeholder="(vd : SCN0001)" />
-                            </div>
-                        </div>
 
-                        <div class="mb-3 row ml-7">
-                            <label for="nameadd" class="col-sm-4 col-form-label">Tên Nhân Sự</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="nameadd"
-                                    placeholder="(vd : Nguyễn Văn A)" />
-                            </div>
+<div id="adddropdown" class="bg-light fixed-top">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i
+                        class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+            <div class="offcanvas-body">
+                <h1 id="add-title" style="text-align: center">Thêm Nhân Sự</h1>
+                <form class="mt-8" method="POST" action="{{ route('create.user') }}">
+                    @csrf
+                    <div class="mb-3 row ml-7">
+                        <label for="mansadd" class="col-sm-4 col-form-label">Mã Nhân Sự</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="personnel_code" class="form-control" id="mansadd"
+                                placeholder="(vd : SCN0001)" />
+                            @error('personnel_code')
+                                <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                            @enderror
                         </div>
+                    </div>
 
-                        <div class="mb-3 row ml-7">
-                            <label for="phoneadd" class="col-sm-4 col-form-label">Số Điện Thoại</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="phoneadd"
-                                    placeholder="(vd : 0123456789)" />
-                            </div>
+                    <div class="mb-3 row ml-7">
+                        <label for="fullname" class="col-sm-4 col-form-label">Tên Nhân Sự</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="fullname" class="form-control" id="fullname"
+                                placeholder="(vd : Nguyễn Văn A)" />
+                            @error('fullname')
+                                <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                            @enderror
                         </div>
+                    </div>
 
-                        <div class="mb-3 row ml-7">
-                            <label for="staticEmail" class="col-sm-4 col-form-label">Email</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="staticEmail"
-                                    placeholder="email@example.com" />
-                            </div>
+                    <div class="mb-3 row ml-7">
+                        <label for="phoneadd" class="col-sm-4 col-form-label">Số Điện Thoại</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="phone" class="form-control" id="phoneadd"
+                                placeholder="(vd : 0123456789)" />
+                            @error('phone')
+                                <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                            @enderror
                         </div>
+                    </div>
+                    <div class="mb-3 row ml-7">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Email</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="email" class="form-control" id="staticEmail"
+                                placeholder="email@example.com" />
+                            @error('email')
+                                <p class='text-danger text-xs pt-1'> {{ $message }} </p>
+                            @enderror
+                        </div>
+                    </div>
 
-                        <div class="mb-3 row ml-7">
-                            <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
-                            <div class="col-sm-6">
-                                <input type="password" class="form-control" id="inputPassword" />
-                            </div>
+                    <div class="mb-3 row ml-7">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+                        <div class="col-sm-6">
+                            <input type="password" name="password" class="form-control" id="inputPassword" />
+                            @error('password') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
                         </div>
-                        <div id="btn-submit-add">
-                            <a type="submit" onclick="onAlertSuccess()" class="btn btn-primary mt-7">Thêm</a>
-                            <a type="submit" onclick="onAlertError()" class="btn btn-primary mt-7">Thất Bại</a>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div id="btn-submit-add">
+                        <button type="submit" onclick="onAlertSuccess()" class="btn btn-primary mt-7">Thêm</button>
+                        <a type="submit" onclick="onAlertError()" class="btn btn-primary mt-7">Thất Bại</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -199,11 +214,6 @@
         </div>
     </div>
 </div>
-
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-
-@section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Tables'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -228,6 +238,10 @@
                                         </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Email</th>
+                                        <th
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Chức Vụ</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -241,81 +255,60 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="">
-                                            <p class="text-sm font-weight-bold mb-0">SCN001</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-3 py-1">
-                                                <div>
-                                                    <img src="./img/team-1.jpg" class="avatar me-3" alt="image">
+                                    @foreach ($nhansu as $ns)
+                                        <tr>
+                                            <td class="">
+                                                <p class="text-sm font-weight-bold mb-0">{{ $ns->personnel_code }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-3 py-1">
+                                                    <div>
+                                                        <img src="{{ $ns->img_url }}" class="avatar me-3"
+                                                            alt="Avatar">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{ $ns->fullname }}</h6>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Name</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">Trưởng Phòng</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <p class="text-sm font-weight-bold mb-0">Phòng Công Nghệ</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">Hoạt Động</span>
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                                <a id="btn-del" onclick="onDelete()">
-                                                    <p class="text-sm font-weight-bold mb-0 ">Delete</p>
-                                                </a>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $ns->email }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $ns->position_id }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-sm font-weight-bold mb-0">{{ $ns->department_id }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                @if ($ns->status === 1)
+                                                    <span class="badge badge-sm bg-gradient-success">Hoạt Động</span>
+                                                @endif
+                                                @if ($ns->status === 0)
+                                                    <span class="badge badge-sm bg-gradient-secondary">Không Hoạt
+                                                        Động</span>
+                                                @endif
+                                            </td>
+                                            <td class="align-middle text-end">
+                                                <div class="d-flex px-3 py-1 justify-content-center align-items-center">
+                                                    {{-- <form action="{{ route('del',$sv->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button id="btn-del" type="submit" class="text-sm font-weight-bold mb-0 ">Delete</button>
+                                                </form> --}}
+                                                    <a id="btn-del" onclick="onDelete({{ $ns->id }})">
+                                                        <p class="text-sm font-weight-bold mb-0 ">Delete</p>
+                                                    </a>
 
-                                                {{-- Edit --}}
-                                                <a id="btn-edit" data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasNavbarupdate">
-                                                    <p class="text-sm font-weight-bold mb-0 ps-2">Edit</p>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">SCN002</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-3 py-1">
-                                                <div>
-                                                    <img src="./img/team-1.jpg" class="avatar me-3" alt="image">
+                                                    {{-- Edit --}}
+                                                    <a id="btn-edit" data-bs-toggle="offcanvas"
+                                                        data-bs-target="#offcanvasNavbarupdate">
+                                                        <p class="text-sm font-weight-bold mb-0 ps-2">Edit</p>
+                                                    </a>
                                                 </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Name</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">Trưởng Phòng</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <p class="text-sm font-weight-bold mb-0">Phòng Công Nghệ</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-secondary">Không Hoạt Động</span>
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                                <a id="btn-del" data-bs-toggle="modal" onclick="onDelete()"
-                                                    data-bs-target="#exampleModal">
-                                                    <p class="text-sm font-weight-bold mb-0 ">Delete</p>
-                                                </a>
-
-                                                {{-- Edit --}}
-                                                <a id="btn-edit" data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasNavbarupdate">
-                                                    <p class="text-sm font-weight-bold mb-0 ps-2">Edit</p>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
