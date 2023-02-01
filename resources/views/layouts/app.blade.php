@@ -15,14 +15,11 @@
     <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="assets/css/argon-dashboard.css" rel="stylesheet" />
     <!-- Sweetalert2 -->
     <link href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
-
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -32,23 +29,33 @@
     @endguest
 
     @auth
-        @if (in_array(request()->route()->getName(), ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality']))
+        @if (in_array(request()->route()->getName(),
+                ['sign-in-static', 'sign-up-static', 'login', 'register', 'recover-password', 'rtl', 'virtual-reality']))
             @yield('content')
         @else
-            @if (!in_array(request()->route()->getName(), ['profile', 'profile-static']))
+            @if (
+                !in_array(request()->route()->getName(),
+                    ['profile', 'profile-static']))
                 <div class="min-height-300 bg-primary position-absolute w-100"></div>
-            @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
-                <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+            @elseif (in_array(request()->route()->getName(),
+                    ['profile-static', 'profile']))
+                <div class="position-absolute w-100 min-height-300 top-0"
+                    style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
                     <span class="mask bg-primary opacity-6"></span>
                 </div>
             @endif
             @include('layouts.navbars.auth.sidenav')
-                <main class="main-content border-radius-lg">
-                    @yield('content')
-                </main>
+            <main class="main-content border-radius-lg">
+                @yield('content')
+            </main>
             @include('components.fixed-plugin')
         @endif
     @endauth
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+        integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!--   Core JS Files   -->
     <script src="assets/js/core/personnel.js"></script>
@@ -56,6 +63,7 @@
     <script src="assets/js/core/bootstrap.min.js"></script>
     <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
