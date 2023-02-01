@@ -1,4 +1,5 @@
-function onDelete(){
+function onDelete(id){
+    // window.employee_id = id;
     const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-success',
@@ -6,6 +7,8 @@ function onDelete(){
     },
     buttonsStyling: false
 })
+
+
 
 swalWithBootstrapButtons.fire({
     title: 'Bạn muốn xóa ?',
@@ -17,6 +20,15 @@ swalWithBootstrapButtons.fire({
     reverseButtons: true
 }).then((result) => {
     if (result.isConfirmed) {
+        $.ajax({
+            url: '/personnel/delete',
+           method: 'GET',
+           
+           data:{
+               'count_type': id,
+           },
+        });
+        location.reload(); 
         swalWithBootstrapButtons.fire(
             'Thành Công !',
             'Nhân sự của bạn đã bị xóa.',
