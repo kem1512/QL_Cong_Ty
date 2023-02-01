@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->string('ma');
-            $table->string('ten');
-            $table->dateTime('ngay_thanh_lap');
-            $table->bigInteger('id_loai_phong_ban')->unsigned();
-            $table->bigInteger('id_phong_ban_con')->unsigned();
-            $table->boolean('trang_thai');
+            $table->string('code');
+            $table->string('name');
+            $table->bigInteger('id_department_parent')->unsigned()->nullable();
+            $table->foreign('id_department_parent')->references('id')->on('departments');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
