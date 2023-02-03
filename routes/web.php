@@ -25,11 +25,13 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\PersonnelController;
+use App\Http\Controllers\EquimentTypeController;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
 })->middleware('auth');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('createuser');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
@@ -42,26 +44,31 @@ Route::get('/personnel/delete', [App\Http\Controllers\PersonnelController::class
 Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('department', [DepartmentController::class, 'index']);
-	Route::post('get_departments', function (Request $request) {
-		$search = $request->search;
+	Route::get('department', 'DepartmentController@Index');
+	//Route thiết bị
+	Route::get('equimenttype', [EquimentTypeController::class, 'Index']);
+	Route::get('getequimenttype/{totalPage?}/{Page?}', [EquimentTypeController::class, 'Get_Equiment_Type']);
+	//End route thiết bị
+	Route::post(
+		'get_departments',
+		function (Request $request) {
+			$search = $request->search;
 
-		if ($search == '') {
-			$departments = Department::orderby('name', 'asc')->select('id', 'name')->limit(5)->get();
-		} else {
-			$departments = Department::orderby('name', 'asc')->select('id', 'name')->where('name', 'like', '%' . $search . '%')->limit(5)->get();
+			if ($search == '') {
+				$departments = Department::orderby('name', 'asc')->select('id', 'name')->limit(5)->get();
+			} else {
+				$departments = Department::orderby('name', 'asc')->select('id', 'name')->where('name', 'like', '%' . $search . '%')->limit(5)->get();
+			}
+
+			$response = array();
+			foreach ($departments as $department) {
+				$response[] = array("value" => $department->id, "label" => $department->name);
+			}
+
+			return response()->json($response);
 		}
-
-		$response = array();
-		foreach ($departments as $department) {
-			$response[] = array("value" => $department->id, "label" => $department->name);
-		}
-
-		return response()->json($response);
-	})->name('department.get_departments');
-
+	)->name('department.get_departments');
 	Route::post('department', [DepartmentController::class, 'create'])->name('department.create');
-
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
