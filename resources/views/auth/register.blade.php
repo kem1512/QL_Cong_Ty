@@ -13,7 +13,7 @@
                                     <p class="mb-0">Enter your email and password to sign up</p>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('register.perform') }}">
+                                    <form method="POST" action="{{ route('addnhansu') }}">
                                         @csrf
                                         <div class="flex flex-col mb-3">
                                             <input type="text" name="fullname" class="form-control" placeholder="full name" aria-label="Name" value="{{ old('fullname') }}" >
