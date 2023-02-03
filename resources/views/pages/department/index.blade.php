@@ -6,6 +6,55 @@
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
+                    <form role="form" method="POST" action="{{ route('department.create') }}">
+                        @csrf
+                        <div class="card-header pb-0">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0">Edit Profile</p>
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Save</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-uppercase text-sm">User Information</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Mã phòng ban</label>
+                                        <input class="form-control" type="text" name="code">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Tên phòng ban</label>
+                                        <input class="form-control" type="text" name="name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Phòng ban cha</label>
+                                        <input class="form-control" type="text" id="department_search">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Trạng thái hoạt
+                                            động</label>
+                                        <div class="form-check form-switch mt-1">
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                                checked="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h6>Phòng ban</h6>
                     </div>
@@ -16,7 +65,8 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Author</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Function</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -32,8 +82,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-2.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user1">
+                                                    <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">John Michael</h6>
@@ -62,8 +111,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-3.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user2">
+                                                    <img src="/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Alexa Liras</h6>
@@ -92,8 +140,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="/img/team-4.jpg" class="avatar avatar-sm me-3"
-                                                        alt="user3">
+                                                    <img src="/img/team-4.jpg" class="avatar avatar-sm me-3" alt="user3">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Laurent Perrier</h6>

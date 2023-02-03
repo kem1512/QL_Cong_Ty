@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\DepartmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 /*
@@ -25,6 +25,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\PersonnelController;
+use App\Http\Controllers\EquimentTypeController;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
@@ -46,9 +47,31 @@ Route::resource('personnel',PersonnelController::class);
 // Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('department', [DepartmentController::class, 'index']);
+	Route::get('department', 'DepartmentController@Index');
+	//Route thiết bị
+	Route::get('equimenttype', [EquimentTypeController::class, 'Index']);
+	Route::get('getequimenttype/{totalPage?}/{Page?}', [EquimentTypeController::class, 'Get_Equiment_Type']);
+	//End route thiết bị
+	Route::post(
+		'get_departments',
+		function (Request $request) {
+			$search = $request->search;
 
+			if ($search == '') {
+				$departments = Department::orderby('name', 'asc')->select('id', 'name')->limit(5)->get();
+			} else {
+				$departments = Department::orderby('name', 'asc')->select('id', 'name')->where('name', 'like', '%' . $search . '%')->limit(5)->get();
+			}
 
+			$response = array();
+			foreach ($departments as $department) {
+				$response[] = array("value" => $department->id, "label" => $department->name);
+			}
+
+			return response()->json($response);
+		}
+	)->name('department.get_departments');
+	Route::post('department', [DepartmentController::class, 'create'])->name('department.create');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
