@@ -31,7 +31,7 @@ Route::get('/', function () {
 	return redirect('/dashboard');
 })->middleware('auth');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('createuser');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('addnhansu');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
@@ -39,9 +39,12 @@ Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('gues
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::get('/personnel', [PersonnelController::class, 'show'])->name('personnel')->middleware('auth');
-Route::get('/personnel/delete', [App\Http\Controllers\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
-Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
+
+//personnel
+Route::resource('personnel',PersonnelController::class);
+// Route::get('/personnel/edit/{id}', [App\Http\Controllers\PersonnelController::class, 'edit'])->name('edit');
+// Route::delete('/personnel/delete', [App\Http\Controllers\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
+// Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('department', 'DepartmentController@Index');
