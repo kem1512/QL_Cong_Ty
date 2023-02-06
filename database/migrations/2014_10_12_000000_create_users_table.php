@@ -24,10 +24,10 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('address')->nullable();
-            $table->integer('status')->nullable();
+            $table->integer('status')->nullable()->default(1);
             $table->date('recruitment_date')->nullable();
             $table->string('img_url')->nullable();
-            $table->integer('level')->nullable();
+            $table->integer('level')->nullable()->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

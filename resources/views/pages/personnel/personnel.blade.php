@@ -162,52 +162,57 @@
                                 </div>
 
                                 <div class="col-4">
+                                    <div class="form-update d-none">
+                                        <label for="mans" class="col-sm-4 col-form-label d-none">id :</label>
+                                        <input type="text" readonly id="id"
+                                            class="form-control d-none" id="mans" value="SCN0001" required />
+                                    </div>
                                     <div class="form-update">
                                         <label for="mans" class="col-sm-4 col-form-label">Mã Nhân Sự :</label>
-                                        <input type="text" readonly value="{{ $userdetail->personnel_code ?? '' }}"
+                                        <input type="text" readonly id="personnel_codeu"
                                             class="form-control" id="mans" value="SCN0001" required />
                                     </div>
                                     <div class="form-update">
                                         <label for="name" class="col-sm-4 col-form-label">Họ Tên :</label>
-                                        <input type="text" name="fullname" value="{{ $userdetail->fullname ?? '' }}"
+                                        <input type="text" name="fullname" id="fullnameu"
                                             class="form-control" id="name" required />
                                     </div>
                                     <div class="form-update">
                                         <label for="Email" class="col-sm-4 col-form-label">Email :</label>
-                                        <input type="email" name="email" value="{{ $userdetail->email ?? '' }}"
+                                        <input type="email" name="email" id="emailu"
                                             class="form-control" id="Email" required />
                                     </div>
                                     <div class="form-update">
                                         <label for="phone" class="col-sm-4 col-form-label">Số Điện Thoại:</label>
-                                        <input type="text" name="phone" value="{{ $userdetail->phone ?? '' }}"
+                                        <input type="text" name="phone" id="phoneu"
                                             class="form-control" id="phone" required />
                                     </div>
 
                                 </div>
                                 <div class="col-4">
                                     <label for="phongban" class="col-sm-4 col-form-label">Phòng Ban :</label>
-                                    <select class="form-control" name="department_id" id="phongban">
-                                        {{-- {{$sinhvien->GioiTinh == "Nam" ? 'selected':''}} --}}
+                                    <select class="form-control" name="department_idu" id="department_idu">
                                         <option value="1">Công Nghệ</option>
                                         <option value="2">Kế Toán</option>
                                         <option value="3">Nhân Sự</option>
                                     </select>
                                     <label for="chucvu" class="col-sm-4 col-form-label">Chức Vụ :</label>
-                                    <select class="form-control" name="position_id" id="chucvu">
-                                        <option value="1">Giám Đốc</option>
-                                        <option value="2">Quản Lý</option>
-                                        <option value="3">Trưởng Phòng</option>
+                                    <select class="form-control" name="position_id" id="position_idu">
+                                        @foreach ($postions as $po)
+                                        <option value="{{$po->id}}">{{$po->position}}</option>
+                                        @endforeach
                                     </select>
                                     <label for="trangthai" class="col-sm-4 col-form-label">Trạng Thái :</label>
-                                    <select class="form-control" name="status" id="trangthai">
-                                        <option value="1">Đang Hoạt Động</option>
-                                        <option value="2">Nghỉ Phép</option>
-                                        <option value="3">Chưa Kích Hoạt</option>
+                                    <select class="form-control" name="status" id="statusu">
+                                        <option value="1">Chưa Kích Hoạt</option>
+                                        <option value="2">Đang Hoạt Động</option>
+                                        <option value="3">Nghỉ Phép</option>
+                                        <option value="4">Khoá</option>
                                     </select>
                                     <div class="form-update">
                                         <label for="password" class="col-sm-4 col-form-label">Mật Khẩu :</label>
-                                        <input type="password" readonly value="{{ $userdetail->passwor ?? '********' }}"
-                                            class="form-control" id="password" />
+                                        <input type="password" readonly
+                                            class="form-control" id="passwordu" />
                                     </div>
 
                                 </div>
@@ -219,8 +224,8 @@
                                 <div class="form-update">
                                     <label for="dateofbirth" class="col-sm-4 col-form-label">Ngày Sinh:</label>
                                     <input type="date" name="date_of_birth"
-                                        value="{{ $userdetail->date_of_birth ?? '' }}" class="form-control"
-                                        id="dateofbirth" />
+                                         class="form-control"
+                                        id="date_of_birthu" />
                                 </div>
                             </div>
 
@@ -228,8 +233,8 @@
                                 <div class="form-update">
                                     <label for="recrui" class="col-sm-4 col-form-label">Ngày Tuyển Dụng:</label>
                                     <input type="date" name="recruitment_date"
-                                        value="{{ $userdetail->recruitment_date ?? '' }}" class="form-control"
-                                        id="recrui" />
+                                        class="form-control"
+                                        id="recruitment_dateu" />
                                 </div>
                             </div>
                         </div>
@@ -237,11 +242,11 @@
                             <div class="col-12">
                                 <label for="exampleFormControlTextarea1" class="col-sm-4 col-form-label">Địa Chỉ
                                     :</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $userdetail->address ?? '' }}</textarea>
+                                <textarea class="form-control" id="addressu" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="btn-group-update mt-5 align-items-center justify-content-center">
-                            <button class="btn btn-primary" type="submit">Cập Nhật</button>
+                            <button class="btn btn-primary" id="btn_update_personnel">Cập Nhật</button>
                             <a data-bs-dismiss="offcanvas" aria-label="Close" class="btn btn-danger">Close</a>
                         </div>
                     </form>
@@ -262,8 +267,28 @@
                     </div>
                     <div class="card-body px-0 pt-0 pb-2" id="body_query">
                         {!! \App\Models\User::UserBuild($nhansu) !!}
+                        
                     </div>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        <a class="page-link" href="javascript:;" aria-label="Previous">
+                          <i class="fa fa-angle-left"></i>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                      </li>
+                      <li class="page-item"><a class="page-link" href="/personnel?pages=1">1</a></li>
+                      <li class="page-item"><a class="page-link" href="/personnel?pages=2">2</a></li>
+                      <li class="page-item"><a class="page-link" href="/personnel?pages=3">3</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="javascript:;" aria-label="Next">
+                          <i class="fa fa-angle-right"></i>
+                          <span class="sr-only"></span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
             </div>
         </div>
         @include('layouts.footers.auth.footer')

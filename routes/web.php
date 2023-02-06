@@ -1,6 +1,4 @@
 <?php
-
-use App\Http\Controllers\Admin\DepartmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\Department;
@@ -24,7 +22,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
-use App\Http\Controllers\PersonnelController;
+use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\EquimentTypeController;
 
 Route::get('/', function () {
@@ -41,13 +39,16 @@ Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 //personnel
-Route::resource('personnel',PersonnelController::class);
-// Route::get('/personnel/edit/{id}', [App\Http\Controllers\PersonnelController::class, 'edit'])->name('edit');
-// Route::delete('/personnel/delete', [App\Http\Controllers\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
-// Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
+Route::get('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'index'])->name('personnel.index');
+Route::get('/personnel/edit', [App\Http\Controllers\Admin\PersonnelController::class, 'edit'])->name('personnel.edit');
+Route::delete('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
+Route::post('/personnel/add', [App\Http\Controllers\Admin\PersonnelController::class, 'store'])->name('create.user');
+Route::post('/personnel/update', [App\Http\Controllers\Admin\PersonnelController::class, 'update'])->name('update.user');
+
+
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('department', 'DepartmentController@Index');
+	// Route::get('department', 'DepartmentController@Index');
 	//Route thiết bị
 	Route::get('equimenttype', [EquimentTypeController::class, 'Index']);
 	Route::get('getequimenttype/{perpage?}/{keyword?}', [EquimentTypeController::class, 'Get']);
@@ -75,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
 			return response()->json($response);
 		}
 	)->name('department.get_departments');
-	Route::post('department', [DepartmentController::class, 'create'])->name('department.create');
+	// Route::post('department', [DepartmentController::class, 'create'])->name('department.create');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

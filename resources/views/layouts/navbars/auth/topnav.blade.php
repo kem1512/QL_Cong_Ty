@@ -30,7 +30,7 @@
 
                         <span class="nav-link text-white font-weight-bold px-0">
                             <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">{{ Auth::user() -> fullname }}</span>
+                            <span class="d-sm-inline d-none">{{ Auth::user() -> fullname ??'Đăng Nhập'}}</span>
                         </span>
                     </form>
                 </li>
