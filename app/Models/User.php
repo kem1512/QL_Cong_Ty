@@ -109,23 +109,56 @@ class User extends Authenticatable
                                 </div>
                             </div>
                         </td>
+
                         <td>
                             <p class="text-sm font-weight-bold mb-0">' . $ns->email . '</p>
                         </td>
-                        <td>
-                            <p class="text-sm font-weight-bold mb-0">' . $ns->position_id . '</p>
+
+                        <td>';
+            if ($ns->department_id === 1) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Tổng Giám Đốc</p>';
+            } else if ($ns->position_id === 2) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Giám Đốc</p>';
+            } else if ($ns->position_id === 3) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Trưởng Phòng</p>';
+            } else if ($ns->position_id === 4) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Tổ Trưởng</p>';
+            } else if ($ns->position_id === 5) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Nhóm Trưởng</p>';
+            } else if ($ns->position_id === 6) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Chuyên Viên</p>';
+            } else if ($ns->position_id === 7) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Nhân Viên</p>';
+            } else if ($ns->position_id === 8) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Thử Việc</p>';
+            } else if ($ns->position_id === 9) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Học Việc</p>';
+            } else if ($ns->position_id === 10) {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Thực Tập Sinh</p>';
+            } else {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Chưa Có</p>';
+            }
+
+            $html .= '  
                         </td>
+
                         <td class="align-middle text-center text-sm">
-                            <p class="text-sm font-weight-bold mb-0">' . $ns->department_id . '</p>
-                        </td>
+                        <p class="text-sm font-weight-bold mb-0">' . $ns->position_id . '</p>';
+            $html .= ' </td>
                         <td class="align-middle text-center text-sm"> ';
             if ($ns->status === 1) {
                 $html .= '
-                            <span class ="badge badge-sm bg-gradient-success">Hoạt Động</span>';
+                <span class ="badge badge-sm bg-gradient-secondary">Chưa kích hoạt</span>';
+            } else if ($ns->status === 2) {
+                $html .= '<span class="badge badge-sm bg-gradient-success">Hoạt Động</span> ';
+            } else if ($ns->status === 3) {
+                $html .= '<span class="badge badge-sm bg-gradient-light">Nghỉ Phép</span> ';
+            } else if ($ns->status === 4) {
+                $html .= '<span class="badge badge-sm bg-gradient-danger">Khoá</span> ';
+            } else {
+                $html .= '<span class="badge badge-sm bg-gradient-warning">Không xác định</span> ';
             }
-            if ($ns->status === 0) {
-                $html .= '<span class="badge badge-sm bg-gradient-secondary">Không Hoạt Động</span> ';
-            }
+
             $html .= '</td>
                         <td class="align-middle text-end">
                             <div class="d-flex px-3 py-1 justify-content-center align-items-center">    
@@ -146,7 +179,6 @@ class User extends Authenticatable
         $html .= '
             </tbody>
         </table>
-        ' . $nhansu->LINKS() . '
     </div> ';
         return $html;
     }
