@@ -7,6 +7,7 @@ use App\Models\Equiment_Type;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Pagination\Paginator;
+use Carbon\Carbon;
 
 class EquimentTypeController extends Controller
 {
@@ -15,10 +16,79 @@ class EquimentTypeController extends Controller
         return view('pages.Equiments.Equiment_Type.Index');
     }
 
-    public function Get_Equiment_Type($totalPage = null, $Page = null)
+    public function Get($perpage, $keyword = null)
     {
-        $list = DB::table('equiment_types')->get();
-        $paginate = new Paginator($list, $totalPage, $Page);
-        return $paginate;
+        if ($keyword == null) {
+            $list = DB::table('equiment_types')
+                ->orderBy('created_at', 'desc')
+                ->paginate($perpage);
+            return $list;
+        }
+
+        $list = DB::table('equiment_types')
+            ->where('name', 'like', '%' . $keyword . '%')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perpage);
+        return $list;
+    }
+
+    public function Post(Request $request)
+    {
+        $request->validate(
+            [
+                'name' => ['required', 'min:6']
+            ],
+            [
+                'name.required' => "Tên loại không được để trống!",
+                'name.min' => "Tên loại phải lớn hơn 6 kí tự!"
+            ]
+        );
+
+        $name = $request->name;
+        $status = $request->status == 'on' ? 1 : 0;
+        $created_at = Carbon::Now();
+        $updated_at = Carbon::Now();
+
+        return DB::table('equiment_types')->insert([
+            'name' => $name,
+            'status' => $status,
+            'created_at' => $created_at,
+            'updated_at' => $updated_at,
+        ]);
+    }
+
+    public function Delete($id)
+    {
+        return DB::table('equiment_types')->where('id', '=', $id)->delete();
+    }
+
+    public function Get_By_Id($id)
+    {
+        return DB::table('equiment_types')->where('id', '=', $id)->get();
+    }
+
+    public function Update($id, Request $request)
+    {
+        $request->validate(
+            [
+                'name' => ['required', 'min:6']
+            ],
+            [
+                'name.required' => "Tên loại không được để trống!",
+                'name.min' => "Tên loại phải lớn hơn 6 kí tự!"
+            ]
+        );
+
+        $name = $request->name;
+        $status = $request->status == 'on' ? 1 : 0;
+        $updated_at = Carbon::Now();
+
+        return DB::table('equiment_types')
+            ->where('id', $id)
+            ->update([
+                'name' => $name,
+                'status' => $status,
+                'updated_at' => $updated_at,
+            ]);
     }
 }

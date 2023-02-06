@@ -47,7 +47,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('department', 'DepartmentController@Index');
 	//Route thiết bị
 	Route::get('equimenttype', [EquimentTypeController::class, 'Index']);
-	Route::get('getequimenttype/{totalPage?}/{Page?}', [EquimentTypeController::class, 'Get_Equiment_Type']);
+	Route::get('getequimenttype/{perpage?}/{keyword?}', [EquimentTypeController::class, 'Get']);
+	Route::post('postequimenttype', [EquimentTypeController::class, 'Post']);
+	Route::get('deleteequimenttype/{id?}', [EquimentTypeController::class, 'Delete']);
+	Route::get('getbyidequiment/{id?}', [EquimentTypeController::class, 'Get_By_Id']);
+	Route::post('updateequimenttype/{id?}', [EquimentTypeController::class, 'Update']);
 	//End route thiết bị
 	Route::post(
 		'get_departments',

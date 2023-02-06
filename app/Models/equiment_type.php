@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Equiment_Type extends Model
 {
     use HasFactory;
+
+    protected $fillTable = ['name', 'status', 'created_at', 'updated_at'];
 }
