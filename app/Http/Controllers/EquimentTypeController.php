@@ -27,6 +27,7 @@ class EquimentTypeController extends Controller
 
         $list = DB::table('equiment_types')
             ->where('name', 'like', '%' . $keyword . '%')
+            ->orWhere('status', $keyword)
             ->orderBy('created_at', 'desc')
             ->paginate($perpage);
         return $list;

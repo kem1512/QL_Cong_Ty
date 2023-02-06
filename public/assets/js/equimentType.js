@@ -194,4 +194,9 @@ function Search() {
     GetAll(perPage, currentPage, keyword);
 }
 
+function ChangeStatus() {
+    keyword = $('#status-list').val();
+    GetAll(perPage, currentPage, keyword);
+}
+
 

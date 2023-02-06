@@ -46,8 +46,15 @@
                     <div class="card-header pb-0 mb-5">
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="mb-0">Danh sách loại thiết bị</p>
-                            <input type="text" id="txtTimKiem" class="form-control form-control-sm w-25"
-                                placeholder="Nhập từ khóa tìm kiếm..." onchange="Search()">
+                            <div class="d-flex">
+                                <select id="status-list" class="form-control form-control-sm mx-1"
+                                    onchange="ChangeStatus()">
+                                    <option value="1">Hoạt động</option>
+                                    <option value="0">Không hoạt động</option>
+                                </select>
+                                <input type="text" id="txtTimKiem" class="form-control form-control-sm"
+                                    placeholder="Nhập từ khóa tìm kiếm..." onchange="Search()">
+                            </div>
                         </div>
                     </div>
                     <div class="card-body pt-0 pb-2">
