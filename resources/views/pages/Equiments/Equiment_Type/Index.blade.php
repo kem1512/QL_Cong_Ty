@@ -10,9 +10,10 @@
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
                                 <p class="mb-0">Thêm loại thiết bị</p>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Lưu thông
-                                    tin</button>
-                                <button type="button" id="btnHuy" class="btn btn-secondary btn-sm mx-1">Hủy</button>
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto"><i
+                                        class="fa-sharp fa-solid fa-floppy-disk"></i></button>
+                                <button type="button" id="btnHuy" class="btn btn-secondary btn-sm mx-1"><i
+                                        class="fa-sharp fa-solid fa-x"></i></button>
                             </div>
                         </div>
                         @csrf
@@ -47,13 +48,13 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="mb-0">Danh sách loại thiết bị</p>
                             <div class="d-flex">
-                                <select id="status-list" class="form-control form-control-sm mx-1"
-                                    onchange="ChangeStatus()">
-                                    <option value="1">Hoạt động</option>
-                                    <option value="0">Không hoạt động</option>
+                                <select class="form-control form-control-sm mx-1" id="list_status">
+                                    <option value="">Tất cả</option>
+                                    <option value="1">Sử dụng</option>
+                                    <option value="0">Không còn sử dụng</option>
                                 </select>
                                 <input type="text" id="txtTimKiem" class="form-control form-control-sm"
-                                    placeholder="Nhập từ khóa tìm kiếm..." onchange="Search()">
+                                    placeholder="Tìm kiếm...">
                             </div>
                         </div>
                     </div>
@@ -76,10 +77,6 @@
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Ngày cập nhật
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Trạng thái
                                         </th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
@@ -97,14 +94,14 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a class="page-link" aria-label="Previous" onclick="Previous()">
+                                        <a class="page-link" aria-label="Previous" id="btnPrevious">
                                             <i class="fa fa-angle-left"></i>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
                                     <div id="pageLink" class="d-flex"></div>
                                     <li class="page-item">
-                                        <a class="page-link" aria-label="Next" onclick="Next()">
+                                        <a class="page-link" aria-label="Next" id="btnNext">
                                             <i class="fa fa-angle-right"></i>
                                             <span class="sr-only">Next</span>
                                         </a>
@@ -122,5 +119,5 @@
 
 @section('javascript')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('assets/js/equimentType.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/equimentType.js') }}"></script>
 @endsection
