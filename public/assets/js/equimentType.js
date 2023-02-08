@@ -5,6 +5,7 @@ var pagintion = new Pagination();
 var createCheck = true;
 var id_equimenttype = 0;
 var keyword = "";
+var orderby = 'asc';
 
 $(document).ready(function () {
     $('#btnHuy').css('display', 'none');
@@ -27,7 +28,7 @@ $(document).ready(function () {
 function GetAll() {
     $.ajax({
         type: "get",
-        url: "getequimenttype/" + pagintion.perPage + "/" + keyword + "?page=" + pagintion.currentPage,
+        url: "/equimenttype/get/" + pagintion.perPage + "/" + orderby + "/" + keyword + "?page=" + pagintion.currentPage,
         dataType: "json",
         success: function (response) {
             let tbody = '';
@@ -86,15 +87,16 @@ function Submit() {
         if (createCheck) {
             $.ajax({
                 type: "post",
-                url: "postequimenttype",
+                url: "/equimenttype/post",
                 data: data,
                 dataType: "json",
                 processData: false,
                 contentType: false,
                 success: function () {
+                    orderby = 'desc';
                     $('input[name = "name"]').val("");
                     Swal.fire(
-                        'Good job!',
+                        'Good job',
                         'Thêm mới thành công',
                         'success'
                     );
@@ -107,7 +109,7 @@ function Submit() {
         } else {
             $.ajax({
                 type: "post",
-                url: "updateequimenttype/" + id_equimenttype,
+                url: "/equimenttype/update/" + id_equimenttype,
                 data: data,
                 dataType: "json",
                 processData: false,
@@ -115,7 +117,7 @@ function Submit() {
                 success: function () {
                     $('input[name = "name"]').val("");
                     Swal.fire(
-                        'Good job!',
+                        'Good job',
                         'Sửa thành công',
                         'success'
                     );
@@ -147,12 +149,12 @@ function Delete() {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "get",
-                    url: "deleteequimenttype/" + id,
+                    url: "/equimenttype/delete/" + id,
                     dataType: "json",
                     success: function (response) {
                         Swal.fire(
-                            'Good job!',
-                            'You clicked the button!',
+                            'Good job',
+                            'Xóa thành công',
                             'success'
                         );
                         GetAll();
@@ -168,7 +170,7 @@ function GetEquiment() {
         let id = e.target.name;
         $.ajax({
             type: "get",
-            url: "getbyidequiment/" + id,
+            url: "/equimenttype/getbyid/" + id,
             dataType: "json",
             success: function (response) {
                 $('input[name = "name"]').val(response[0].name);

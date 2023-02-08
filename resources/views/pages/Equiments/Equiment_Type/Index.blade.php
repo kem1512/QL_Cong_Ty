@@ -21,9 +21,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Tên loại</label>
+                                        <div class="d-flex justify-content-between">
+                                            <label for="example-text-input" class="form-control-label">Tên loại</label>
+                                            <label id="error-name" class="form-control-label text-danger"></label>
+                                        </div>
                                         <input class="form-control" type="text" name="name">
-                                        <span id="error-name" class="text-danger"></span>
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">

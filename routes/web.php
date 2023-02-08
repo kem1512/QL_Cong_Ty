@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\WareHousesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\Department;
@@ -50,12 +51,39 @@ Route::post('/personnel/update', [App\Http\Controllers\Admin\PersonnelController
 Route::group(['middleware' => 'auth'], function () {
 	// Route::get('department', 'DepartmentController@Index');
 	//Route thiết bị
-	Route::get('equimenttype', [EquimentTypeController::class, 'Index']);
-	Route::get('getequimenttype/{perpage?}/{keyword?}', [EquimentTypeController::class, 'Get']);
-	Route::post('postequimenttype', [EquimentTypeController::class, 'Post']);
-	Route::get('deleteequimenttype/{id?}', [EquimentTypeController::class, 'Delete']);
-	Route::get('getbyidequiment/{id?}', [EquimentTypeController::class, 'Get_By_Id']);
-	Route::post('updateequimenttype/{id?}', [EquimentTypeController::class, 'Update']);
+	//Loại thiết bị
+	Route::group(
+		['prefix' => 'equimenttype'],
+		function () {
+			Route::get(
+				'/',
+				function () {
+						return view('pages.Equiments.Equiment_Type.Index');
+					}
+			)->name('equimenttype');
+			Route::get('get/{perpage?}/{orderby?}/{keyword?}', [EquimentTypeController::class, 'Get']);
+			Route::post('post', [EquimentTypeController::class, 'Post']);
+			Route::get('delete/{id?}', [EquimentTypeController::class, 'Delete']);
+			Route::get('getbyid/{id?}', [EquimentTypeController::class, 'Get_By_Id']);
+			Route::post('update/{id?}', [EquimentTypeController::class, 'Update']);
+		}
+	);
+
+	//Kho
+	Route::group(
+		['prefix' => 'warehouse'],
+		function () {
+			Route::get(
+				'/',
+				function () {
+						return view('pages.Equiments.warehouse.wavehouse');
+					}
+			)->name('warehouse');
+			Route::get('get/{perpage?}/{orderby?}/{keyword?}', [WareHousesController::class, 'Get']);
+			Route::get('delete/{id?}', [WareHousesController::class, 'Delete']);
+			Route::get('getbyid/{id?}', [WareHousesController::class, 'GetById']);
+		}
+	);
 	//End route thiết bị
 	Route::post(
 		'get_departments',
