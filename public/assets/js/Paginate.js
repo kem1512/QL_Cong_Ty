@@ -1,5 +1,5 @@
 class Pagination {
-    perPage = 5;
+    perPage = 6;
     currentPage = 1;
     lastPage = 0;
 

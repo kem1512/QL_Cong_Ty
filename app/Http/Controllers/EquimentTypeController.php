@@ -11,16 +11,11 @@ use Carbon\Carbon;
 
 class EquimentTypeController extends Controller
 {
-    public function Index()
-    {
-        return view('pages.Equiments.Equiment_Type.Index');
-    }
-
-    public function Get($perpage, $keyword = null)
+    public function Get($perpage, $oderby, $keyword = null)
     {
         if ($keyword == null) {
             $list = DB::table('equiment_types')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at', $oderby)
                 ->paginate($perpage);
             return $list;
         }
@@ -28,7 +23,7 @@ class EquimentTypeController extends Controller
         $list = DB::table('equiment_types')
             ->where('name', 'like', '%' . $keyword . '%')
             ->orWhere('status', $keyword)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', $oderby)
             ->paginate($perpage);
         return $list;
     }
