@@ -9,8 +9,7 @@
                     <div class="row mx-4">
                         <div class="col-sm d-flex mx-5">
                             <div>
-                                <button id="btnThem" class="btn bg-gradient-primary btn-sm btn-block mx-1"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModalSignUp"><i
+                                <button id="btnThem" class="btn bg-gradient-primary btn-sm btn-block mx-1"><i
                                         class="fa-solid fa-plus"></i></button>
                             </div>
                             <div>
@@ -64,44 +63,50 @@
                             <h3 class="font-weight-bolder text-primary text-gradient" id="title"></h3>
                         </div>
                         <div class="card-body pb-3">
-                            <form id="formKho" role="form text-left">
-                                <div class="d-flex justify-content-between">
-                                    <label>Tên kho</label>
-                                    <label id="error-name" class="form-control-label text-danger"></label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="name" class="form-control">
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label>Địa chỉ</label>
-                                    <label id="error-address" class="form-control-label text-danger"></label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="address" class="form-control">
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <label>Ảnh</label>
-                                    <label id="error-image" class="form-control-label text-danger"></label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input type="file" name="image" class="form-control">
-                                </div>
-                                <label>Trạng thái</label>
-                                <div class="form-check form-switch mt-1">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked
-                                        name="status">
-                                </div>
-                                <div class="text-center">
-                                    <div class="d-flex">
-                                        <button type="button"
-                                            class="btn bg-gradient-primary btn-lg btn-rounded w-100 mt-4 mb-0"><i
-                                                class="fa-solid fa-floppy-disk"></i></button>
-                                        <button type="button"
-                                            class="btn bg-gradient-secondary btn-lg btn-rounded w-100 mt-4 mb-0"
-                                            data-bs-dismiss="modal"><i class="fa-solid fa-x"></i></button>
+                            <div class="d-flex justify-content-center">
+                                <img id="image-kho" class="img-fluid border border-primary"
+                                    style="width: 200px;height: 200px;">
+                            </div>
+                            <div>
+                                <form id="formKho" role="form text-left">
+                                    <div class="d-flex justify-content-between">
+                                        <label>Tên kho</label>
+                                        <label id="error-name" class="form-control-label text-danger"></label>
                                     </div>
-                                </div>
-                            </form>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="name" class="form-control">
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <label>Địa chỉ</label>
+                                        <label id="error-address" class="form-control-label text-danger"></label>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="address" class="form-control">
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <label>Ảnh</label>
+                                        <label id="error-image" class="form-control-label text-danger"></label>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input id="image" type="file" name="image" class="form-control">
+                                    </div>
+                                    <label>Trạng thái</label>
+                                    <div class="form-check form-switch mt-1">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked
+                                            name="status">
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="d-flex">
+                                            <button type="submit"
+                                                class="btn bg-gradient-primary btn-lg btn-rounded w-100 mt-4 mb-0"><i
+                                                    class="fa-solid fa-floppy-disk"></i></button>
+                                            <button type="button"
+                                                class="btn bg-gradient-secondary btn-lg btn-rounded w-100 mt-4 mb-0"
+                                                data-bs-dismiss="modal"><i class="fa-solid fa-x"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-footer text-center pt-0 px-sm-4 px-1">
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Storage;
 
 class WareHousesController extends Controller
 {
@@ -56,7 +57,98 @@ class WareHousesController extends Controller
         $result = DB::table('storehouses')->find($id);
 
         return response()->json([
-            'message' => $result,
+            'warehouse' => $result,
+        ], 200);
+    }
+
+    public function Create(Request $request)
+    {
+        $request->validate(
+            [
+                'name' => ['required', 'min:6'],
+                'address' => ['required', 'min:6'],
+                'image' => ['required'],
+            ],
+            [
+                'name.required' => "Tên kho không được để trống!",
+                'name.min' => "Tên kho phải lớn hơn 6 kí tự!",
+                'address.required' => "Địa chỉ không được để trống!",
+                'address.min' => "Địa chỉ phải lớn hơn 6 kí tự!",
+                'image.required' => "Ảnh kho không được để trống!"
+            ]
+        );
+
+        if ($request->has('image')) {
+            $file = $request->image;
+            $file_name = $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $file_name);
+        }
+
+        $name = $request->name;
+        $address = $request->address;
+        $image = "uploads/" . $file_name;
+        $status = $request->status == 'on' ? 1 : 0;
+
+        $result = DB::table('storehouses')->insert([
+            'name' => $name,
+            'address' => $address,
+            'image' => $image,
+            'status' => $status,
+        ]);
+
+        $message = $result == 0 ? "Không thành công" : "Thành công";
+
+        return response()->json([
+            'message' => $message,
+        ], 200);
+    }
+
+    public function Update($id, Request $request)
+    {
+        $image_old = DB::table('storehouses')->where('id', $id)->select(['image'])->get();
+
+        $request->validate(
+            [
+                'name' => ['required', 'min:6'],
+                'address' => ['required', 'min:6'],
+            ],
+            [
+                'name.required' => "Tên kho không được để trống!",
+                'name.min' => "Tên kho phải lớn hơn 6 kí tự!",
+                'address.required' => "Địa chỉ không được để trống!",
+                'address.min' => "Địa chỉ phải lớn hơn 6 kí tự!",
+            ]
+        );
+
+        $file_name = "";
+
+        if ($request->has('image')) {
+            $file = $request->image;
+            $file_name = $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $file_name);
+        } else {
+            $file_name = $image_old->split("/")[1];
+        }
+
+        $name = $request->name;
+        $address = $request->address;
+        $image = "uploads/" . $file_name;
+        $status = $request->status == 'on' ? 1 : 0;
+
+        $result = DB::table('storehouses')
+            ->where('id', $id)
+            ->update([
+                'name' => $name,
+                'address' => $address,
+                'image' => $image,
+                'status' => $status,
+            ]);
+
+
+        $message = $result == 0 ? "Không thành công" : "Thành công";
+
+        return response()->json([
+            'message' => $message,
         ], 200);
     }
 }
