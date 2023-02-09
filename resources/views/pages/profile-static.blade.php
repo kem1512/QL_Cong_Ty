@@ -16,7 +16,6 @@
                             Sayo Kravits
                         </h5>
                         <p class="mb-0 font-weight-bold text-sm">
-                            Public Relations
                         </p>
                     </div>
                 </div>
@@ -56,7 +55,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <p class="mb-0">Edit Profile</p>
+                            <p class="mb-0">Hồ Sơ</p>
                             <button class="btn btn-primary btn-sm ms-auto">Settings</button>
                         </div>
                     </div>

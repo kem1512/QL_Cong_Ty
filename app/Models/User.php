@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -61,6 +62,15 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public static function getUsers()
+    {
+        $users = DB::table('users');
+        return $users->paginate(8);
+    }
+
+
+
     public static function UserBuild($nhansu)
     {
         $html = '
@@ -92,11 +102,14 @@ class User extends Authenticatable
                 </tr>
             </thead>
             <tbody> ';
+            if($nhansu==null){
+                $html.='<p>không có dữ liệu</p>';
+            }
         foreach ($nhansu as $ns) {
             $html .= '
                     <tr>
                         <td class="">
-                            <p class="text-sm font-weight-bold mb-0">' . $ns->personnel_code . ' </p>
+                            <p class="text-sm font-weight-bold mb-0">' . $ns->personnel_code . '</p>
                         </td>
                         <td>
                             <div class="d-flex px-3 py-1">
@@ -115,7 +128,7 @@ class User extends Authenticatable
                         </td>
 
                         <td>';
-            if ($ns->department_id === 1) {
+            if ($ns->position_id === 1) {
                 $html .= ' <p class="text-sm font-weight-bold mb-0">Tổng Giám Đốc</p>';
             } else if ($ns->position_id === 2) {
                 $html .= ' <p class="text-sm font-weight-bold mb-0">Giám Đốc</p>';
@@ -143,17 +156,18 @@ class User extends Authenticatable
                         </td>
 
                         <td class="align-middle text-center text-sm">
-                        <p class="text-sm font-weight-bold mb-0">' . $ns->position_id . '</p>';
+                        <!-- sau sử dụng dữ liệu default = 0 , và thêm điều kiện if else  -->
+                        <p class="text-sm font-weight-bold mb-0">' . $ns->name . '</p>';
             $html .= ' </td>
                         <td class="align-middle text-center text-sm"> ';
-            if ($ns->status === 1) {
+            if ($ns->status === 0) {
                 $html .= '
                 <span class ="badge badge-sm bg-gradient-secondary">Chưa kích hoạt</span>';
-            } else if ($ns->status === 2) {
+            } else if ($ns->status === 1) {
                 $html .= '<span class="badge badge-sm bg-gradient-success">Hoạt Động</span> ';
-            } else if ($ns->status === 3) {
+            } else if ($ns->status === 2) {
                 $html .= '<span class="badge badge-sm bg-gradient-light">Nghỉ Phép</span> ';
-            } else if ($ns->status === 4) {
+            } else if ($ns->status === 3) {
                 $html .= '<span class="badge badge-sm bg-gradient-danger">Khoá</span> ';
             } else {
                 $html .= '<span class="badge badge-sm bg-gradient-warning">Không xác định</span> ';
@@ -179,6 +193,7 @@ class User extends Authenticatable
         $html .= '
             </tbody>
         </table>
+        ' . $nhansu->links() . '
     </div> ';
         return $html;
     }

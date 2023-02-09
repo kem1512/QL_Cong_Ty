@@ -1,11 +1,12 @@
+var fillterst;
+var fillterdp;
+
 // Ajax csrf_token
 $.ajaxSetup({
     headers: {
         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
     },
 });
-
-function getAllPersonnel() {}
 
 // DELETE Personnel
 function onDelete(id) {
@@ -64,13 +65,13 @@ function onDelete(id) {
 // INSERT Personnel
 $("#btn_insert_personnel").on("click", function (e) {
     e.preventDefault();
-    var personnel_code = $("#personnel_code").val();
+    var address = $("#address").val();
     var fullname = $("#fullname").val();
     var phone = $("#phone").val();
     var email = $("#email").val();
     var password = $("#password").val();
     if (
-        (personnel_code == "") |
+        (address == "") |
         (fullname == "") |
         (phone == "") |
         (email == "") |
@@ -82,7 +83,7 @@ $("#btn_insert_personnel").on("click", function (e) {
             url: "/personnel/add",
             method: "POST",
             data: {
-                personnel_code: personnel_code,
+                address: address,
                 fullname: fullname,
                 phone: phone,
                 email: email,
@@ -129,72 +130,157 @@ function getdetail(id) {
     });
 }
 
-//UPDATE Personnel 
-$("#btn_update_personnel").on("click", function (e) {
-    e.preventDefault();
-    var personnel_code = $("#personnel_codeu").val();
-    var fullname = $("#fullnameu").val();
-    var phone = $("#phoneu").val();
-    var email = $("#emailu").val();
-    var department_id = $("#department_idu").val(); 
-    var date_of_birth = $("#date_of_birthu").val();
-    var position_id = $("#position_idu").val();
-    var recruitment_date = $("#recruitment_dateu").val();
-    var status = $("#statusu").val();
-    var address = $("#addressu").val();
-    var id = $("#id").val();
-    if (
-        (fullname == "") |
-        (phone == "") |
-        (email == "") |
-        (department_id == "") |
-        (date_of_birth == "") |
-        (position_id == "") |
-        (recruitment_date == "") |
-        (status == "") |
-        (address == "")|
-        (id=="")
-    ) {
-        onAlertError("Vui lòng không để trống !");
-    }else {
-        $.ajax({
-            url: "/personnel/update",
-            method: "POST",
-            data : {
-                id:id,
-                personnel_code: personnel_code,
-                fullname: fullname,
-                phone: phone,
-                email: email,
-                department_id: department_id,
-                date_of_birth: date_of_birth,
-                position_id: position_id,
-                recruitment_date: recruitment_date,
-                status: status,
-                address: address,
-            },
-            success: function (result) {
-                onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
-                $("#body_query").html(result.body);
-                ClearFromU();
-            },
-            error: function (params) {
-                onAlertError("Vui lòng kiểm tra và thử lại !");
-            },
-        });
-    }
-    
+// id: id,
+//                     img_url:img,
+//                     fullname: fullname,
+//                     phone: phone,
+//                     email: email,
+//                     department_id: department_id,
+//                     date_of_birth: date_of_birth,
+//                     position_id: position_id,
+//                     recruitment_date: recruitment_date,
+//                     status: status,
+//                     address: address,
+//UPDATE Personnel
+$(document).ready(function () {
+    $("#form_update").on("submit", function (e) {
+        e.preventDefault();
+        // let img = $("#img_url_update")[0].files;
+        var form = this;
+        var fullname = $("#fullnameu").val();
+        var phone = $("#phoneu").val();
+        var email = $("#emailu").val();
+        var department_id = $("#department_idu").val();
+        var date_of_birth = $("#date_of_birthu").val();
+        var position_id = $("#position_idu").val();
+        var recruitment_date = $("#recruitment_dateu").val();
+        var status = $("#statusu").val();
+        var address = $("#addressu").val();
+        var id = $("#id").val();
+        // console.log(img);
+        if (
+            (fullname == "") |
+            (phone == "") |
+            (email == "") |
+            (department_id == "") |
+            (date_of_birth == "") |
+            (position_id == "") |
+            (recruitment_date == "") |
+            (status == "") |
+            (address == "") |
+            (id == "")
+        ) {
+            onAlertError("Vui lòng không để trống !");
+        } else {
+            $.ajax({
+                url: "/personnel",
+                method: "POST",
+                data: new FormData(form),
+                processData:false,
+                // dataType:JSON,
+                contentType:false,
+                success: function (result) {
+                    onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
+                    $("#body_query").html(result.body);
+                },
+                error: function () {
+                    onAlertError("Vui lòng kiểm tra và thử lại !");
+                },
+            });
+        }
+    });
 });
 
+//Search
+$(document).ready(function () {
+    $("#search").keyup(function () {
+        var search = $("#search").val();
+        $.ajax({
+            url: "/personnel/search",
+            method: "GET",
+            data: {
+                search: search,
+            },
+            success: function (result) {
+                $("#body_query").html(result.body);
+            },
+        });
+    });
+});
+
+//Fillter status
+$(document).ready(function () {
+    $("#status_select").on("change", function () {
+        fillterst = $(this).val();
+        if (isNaN(fillterst)) {
+            fillterst = "";
+        }
+        console.log("Status" + fillterst);
+        console.log("Phòng ban" + fillterdp);
+        $.ajax({
+            url: "/personnel/fillter",
+            method: "GET",
+            data: {
+                status_filter: fillterst,
+                department_filter: fillterdp,
+            },
+            success: function (result) {
+                $("#body_query").html(result.body);
+            },
+        });
+    });
+});
+
+//Fillter department
+$(document).ready(function () {
+    $("#department_select").on("change", function () {
+        fillterdp = $(this).val();
+        if (isNaN(fillterdp)) {
+            fillterdp = "";
+        }
+        console.log("Status" + fillterst);
+        console.log("Phòng ban" + fillterdp);
+        $.ajax({
+            url: "/personnel/fillter",
+            method: "GET",
+            data: {
+                status_filter: fillterst,
+                department_filter: fillterdp,
+            },
+            success: function (result) {
+                $("#body_query").html(result.body);
+            },
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on("click", ".pagination a", function (e) {
+        e.preventDefault();
+        var page = $(this).attr("href");
+        console.log(page);
+        getMoresUser(page);
+    });
+});
+
+function getMoresUser(page) {
+    $.ajax({
+        type: "GET",
+        url: page,
+        success: function (result) {
+            $("#body_query").html(result.body);
+        },
+    });
+}
 function onAlertSuccess(text) {
     Swal.fire("Thành Công !", text, "success");
 }
-function ClearFromA(){
-    $("#personnel_code").val('');
-    $("#fullname").val('');
-    $("#phone").val('');
-    $("#email").val('');
-    $("#password").val('');
+function ClearFromA() {
+    $("#personnel_code").val("");
+    $("#fullname").val("");
+    $("#phone").val("");
+    $("#email").val("");
+    $("#password").val("");
 }
 function onAlertError(text) {
     Swal.fire("Thất Bại !", text, "error");

@@ -41,12 +41,11 @@ Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middle
 //personnel
 Route::get('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'index'])->name('personnel.index');
 Route::get('/personnel/edit', [App\Http\Controllers\Admin\PersonnelController::class, 'edit'])->name('personnel.edit');
-Route::delete('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
+Route::delete('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'destroy'])->name('delete');
 Route::post('/personnel/add', [App\Http\Controllers\Admin\PersonnelController::class, 'store'])->name('create.user');
-Route::post('/personnel/update', [App\Http\Controllers\Admin\PersonnelController::class, 'update'])->name('update.user');
-
-
-
+Route::post('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'update'])->name('update.user');
+Route::get('/personnel/search', [App\Http\Controllers\Admin\PersonnelController::class, 'search'])->name('Search');
+Route::get('/personnel/fillter', [App\Http\Controllers\Admin\PersonnelController::class, 'fillter'])->name('fillter');
 Route::group(['middleware' => 'auth'], function () {
 	// Route::get('department', 'DepartmentController@Index');
 	//Route thiết bị
