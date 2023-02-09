@@ -82,6 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('get/{perpage?}/{orderby?}/{keyword?}', [WareHousesController::class, 'Get']);
 			Route::get('delete/{id?}', [WareHousesController::class, 'Delete']);
 			Route::get('getbyid/{id?}', [WareHousesController::class, 'GetById']);
+			Route::post('post', [WareHousesController::class, 'Create']);
+			Route::post('update/{id?}', [WareHousesController::class, 'Update']);
 		}
 	);
 	//End route thiết bị
