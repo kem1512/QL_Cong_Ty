@@ -45,7 +45,17 @@
             width: 70%;
         }
 
-        @media only screen and (max-width: 1100px) {
+        @media only screen and (max-width: 1400px) {
+            #offcanvasNavbarupdate {
+                width: 78%;
+            }
+
+            #offcanvasNavbar {
+                width: 78%;
+            }
+        }
+
+        @media only screen and (max-width: 1200px) {
             #offcanvasNavbarupdate {
                 width: 100%;
             }
@@ -55,12 +65,19 @@
             }
         }
 
+        @media only screen and (max-width: 1000px) {
+            #imgupdate {
+                width: 12rem;
+                height: 17rem;
+            }
+        }
+
         #imgupdate {
             color: bisque;
             border: 1px solid #b3aea7;
-            width: 200px;
-            height: 300px;
-            margin-left: 20%;
+            width: 18rem;
+            height: 23rem;
+            margin-left: 8%;
         }
     </style>
 
@@ -85,7 +102,7 @@
                             <div class="col-sm-6">
                                 <input type="text" name="fullname" id="fullname" class="form-control" id="fullname"
                                     placeholder="(vd : Nguyễn Văn A)" />
-                                    <span class="text-danger text-xs pt-1 fullname_error"></span>
+                                <span class="text-danger text-xs pt-1 fullname_error"></span>
                             </div>
                         </div>
 
@@ -94,7 +111,7 @@
                             <div class="col-sm-6">
                                 <input type="text" name="email" id="email" class="form-control" id="staticEmail"
                                     placeholder="email@example.com" />
-                                    <span class="text-danger text-xs pt-1 email_error"></span>
+                                <span class="text-danger text-xs pt-1 email_error"></span>
                             </div>
                         </div>
 
@@ -103,7 +120,7 @@
                             <div class="col-sm-6">
                                 <input type="password" name="password" id="password" class="form-control"
                                     id="inputPassword" />
-                                    <span class="text-danger text-xs pt-1 password_error"></span>
+                                <span class="text-danger text-xs pt-1 password_error"></span>
                             </div>
                         </div>
 
@@ -112,7 +129,7 @@
                             <div class="col-sm-6">
                                 <input type="text" name="phone" id="phone" class="form-control" id="phoneadd"
                                     placeholder="(vd : 0123456789)" />
-                                    <span class="text-danger text-xs pt-1 phone_error"></span>
+                                <span class="text-danger text-xs pt-1 phone_error"></span>
                             </div>
                         </div>
                         <div class="mb-3 row ml-7">
@@ -120,7 +137,7 @@
                             <div class="col-sm-6">
                                 <input type="text" name="personnel_code" id="address" class="form-control"
                                     placeholder="(vd : SCN0001)" />
-                                    <span class="text-danger text-xs pt-1 address_error"></span>
+                                <span class="text-danger text-xs pt-1 address_error"></span>
                             </div>
                         </div>
                         <div id="btn-submit-add">
@@ -142,25 +159,26 @@
                 </div>
                 <div class="offcanvas-body">
                     <h1 id="add-title" style="text-align: center">Sửa Nhân Sự</h1>
-                    <form class="mt-5 col col-12" id="form_update" action="{{route('update.user')}}" method="POST" enctype="multipart/form-data">
+                    <form class="mt-5 col col-12" id="form_update" action="{{ route('update.user') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row wraper">
                             <div class="row">
                                 <div class="col-4 justify-content-center" style="text-align: center">
                                     <div id="imgupdate">
-                                        <img src="https://i.pravatar.cc/150?img=62" width="200px" height="300px"
+                                        <img id="img_url" src="" width="100%" height="100%"
                                             alt="ảnh Nhân sự" />
                                     </div>
                                     <div class="m-3 col-9">
-                                        <input type="file" class="form-control" id="img_url_update">
+                                        <input type="file" name="img_url" onchange="readURL(this);" class="form-control" id="img_url_update">
                                     </div>
                                 </div>
 
                                 <div class="col-4">
                                     <div class="form-update d-none">
                                         <label for="mans" class="col-sm-4 col-form-label d-none">id :</label>
-                                        <input type="text" readonly id="id" class="form-control d-none"
-                                            id="mans" required />
+                                        <input type="text" readonly name="id" class="form-control d-none"
+                                            id="id_user" required />
                                     </div>
                                     <div class="form-update">
                                         <label for="mans" class="col-sm-4 col-form-label">Mã Nhân Sự :</label>
@@ -182,14 +200,16 @@
                                         <input type="text" name="phone" id="phoneu" class="form-control"
                                             id="phone" required />
                                     </div>
-
+                                    <div class="form-update">
+                                        <label for="phone" class="col-sm-4 col-form-label">Quê Quán:</label>
+                                        <input type="text" name="address" id="addressup" class="form-control"
+                                            id="phone" required />
+                                    </div>
+                                    
                                 </div>
                                 <div class="col-4">
                                     <label for="phongban" class="col-sm-4 col-form-label">Phòng Ban :</label>
-                                    <select class="form-control" name="department_idu" id="department_idu">
-                                        {{-- <option value="1">Công Nghệ</option>
-                                        <option value="2">Kế Toán</option>
-                                        <option value="3">Nhân Sự</option> --}}
+                                    <select class="form-control" name="department_id" id="department_idu">
                                         @foreach ($phongbans as $pb)
                                             <option value="{{ $pb->id }}">{{ $pb->name }}</option>
                                         @endforeach
@@ -200,6 +220,9 @@
                                             <option value="{{ $po->id }}">{{ $po->position }}</option>
                                         @endforeach
                                     </select>
+                                    <label for="chucvu" class="col-sm-4 col-form-label">Chức Danh :</label>
+                                    <input type="text" name="title" class="form-control"
+                                            id="title" required />
                                     <label for="trangthai" class="col-sm-4 col-form-label">Trạng Thái :</label>
                                     <select class="form-control" name="status" id="statusu">
                                         <option value="0">Chưa Kích Hoạt</option>
@@ -208,10 +231,12 @@
                                         <option value="3">Khoá</option>
                                         <option value="4">Nghỉ việc</option>
                                     </select>
-                                    <div class="form-update">
-                                        <label for="password" class="col-sm-4 col-form-label">Mật Khẩu :</label>
-                                        <input type="password" readonly class="form-control" id="passwordu" />
-                                    </div>
+                                    <label for="trangthai" class="col-sm-4 col-form-label">Giới Tính :</label>
+                                    <select class="form-control" name="gender" id="gender">
+                                        <option value="0">Không được quy định</option>
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                    </select>
 
                                 </div>
                             </div>
@@ -236,9 +261,9 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <label for="exampleFormControlTextarea1" class="col-sm-4 col-form-label">Địa Chỉ
+                                <label for="exampleFormControlTextarea1" class="col-sm-4 col-form-label">Giới Thiệu Về bản Thân
                                     :</label>
-                                <textarea class="form-control" id="addressu" rows="3"></textarea>
+                                <textarea class="form-control" name="about" id="about" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="btn-group-update mt-5 align-items-center justify-content-center">
@@ -250,6 +275,8 @@
             </div>
         </div>
     </div>
+
+    {{-- MAIN CONTENT  --}}
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">

@@ -1,6 +1,10 @@
+
 var fillterst;
 var fillterdp;
-
+var dbclick=0;
+var emclick=0;
+var phoneclick=0;
+var abclick=0;
 // Ajax csrf_token
 $.ajaxSetup({
     headers: {
@@ -40,15 +44,16 @@ function onDelete(id) {
                         count_type: id,
                     },
                     success: function (result) {
-                        $("#body_query").html(result.body);
+                         if (result.status=="error") {
+                            onAlertError(result.message);
+                        }else {
+                            onAlertSuccess("Xoá Thành Công !");
+                            $("#body_query").html(result.body);
+                        }
+                       
                     },
                 });
 
-                swalWithBootstrapButtons.fire(
-                    "Thành Công !",
-                    "Nhân sự của bạn đã bị xóa.",
-                    "success"
-                );
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -61,6 +66,17 @@ function onDelete(id) {
             }
         });
 }
+
+//Phân Trang
+$(document).ready(function () {
+      $(document).on("click", ".pagination a", function (e) {
+          e.preventDefault();
+          var page = $(this).attr("href");
+          console.log(page);
+          getMoresUser(page);
+      });
+  });
+  
 
 // INSERT Personnel
 $("#btn_insert_personnel").on("click", function (e) {
@@ -94,8 +110,8 @@ $("#btn_insert_personnel").on("click", function (e) {
                 $("#body_query").html(result.body);
                 ClearFromA();
             },
-            error: function (params) {
-                onAlertError("Vui lòng kiểm tra và thử lại !");
+            error: function (error) {
+                onAlertError(error.responseJSON.message);
             },
         });
     }
@@ -111,7 +127,14 @@ function getdetail(id) {
         },
         success: function (result) {
             var nhansu = result.data;
-            $("#id").val(nhansu.id);
+            if (nhansu.img_url == null) {
+                nhansu.img_url = "avatar2.png";
+            }
+            $("#img_url").attr("src", "./file/" + nhansu.img_url);
+            $("#id_user").val(nhansu.id);
+            $("#about").val(nhansu.about);
+            $("#gender").val(nhansu.gender);
+            $("#title").val(nhansu.title);
             $("#personnel_codeu").val(nhansu.personnel_code);
             $("#fullnameu").val(nhansu.fullname);
             $("#phoneu").val(nhansu.phone);
@@ -122,72 +145,34 @@ function getdetail(id) {
             $("#position_idu").val(nhansu.position_id);
             $("#recruitment_dateu").val(nhansu.recruitment_date);
             $("#statusu").val(nhansu.status);
-            $("#addressu").val(nhansu.address);
+            $("#addressup").val(nhansu.address);
         },
-        error: function (params) {
+        error: function (error) {
             onAlertError("Vui lòng kiểm tra và thử lại !");
         },
     });
 }
 
-// id: id,
-//                     img_url:img,
-//                     fullname: fullname,
-//                     phone: phone,
-//                     email: email,
-//                     department_id: department_id,
-//                     date_of_birth: date_of_birth,
-//                     position_id: position_id,
-//                     recruitment_date: recruitment_date,
-//                     status: status,
-//                     address: address,
-//UPDATE Personnel
+//UPDATE
 $(document).ready(function () {
     $("#form_update").on("submit", function (e) {
         e.preventDefault();
-        // let img = $("#img_url_update")[0].files;
-        var form = this;
-        var fullname = $("#fullnameu").val();
-        var phone = $("#phoneu").val();
-        var email = $("#emailu").val();
-        var department_id = $("#department_idu").val();
-        var date_of_birth = $("#date_of_birthu").val();
-        var position_id = $("#position_idu").val();
-        var recruitment_date = $("#recruitment_dateu").val();
-        var status = $("#statusu").val();
-        var address = $("#addressu").val();
-        var id = $("#id").val();
-        // console.log(img);
-        if (
-            (fullname == "") |
-            (phone == "") |
-            (email == "") |
-            (department_id == "") |
-            (date_of_birth == "") |
-            (position_id == "") |
-            (recruitment_date == "") |
-            (status == "") |
-            (address == "") |
-            (id == "")
-        ) {
-            onAlertError("Vui lòng không để trống !");
-        } else {
-            $.ajax({
-                url: "/personnel",
-                method: "POST",
-                data: new FormData(form),
-                processData:false,
-                // dataType:JSON,
-                contentType:false,
-                success: function (result) {
-                    onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
-                    $("#body_query").html(result.body);
-                },
-                error: function () {
-                    onAlertError("Vui lòng kiểm tra và thử lại !");
-                },
-            });
-        }
+        let formData = new FormData(this);
+        console.log(formData);
+        $.ajax({
+            type: "POST",
+            url: "/personnel",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: (response) => {
+                onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
+                $("#body_query").html(response.body);
+            },
+            error: function (error) {
+                onAlertError(error.responseJSON.message);
+            },
+        });
     });
 });
 
@@ -254,12 +239,72 @@ $(document).ready(function () {
     });
 });
 
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#img_url')
+                .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $(document).ready(function () {
-    $(document).on("click", ".pagination a", function (e) {
-        e.preventDefault();
-        var page = $(this).attr("href");
-        console.log(page);
-        getMoresUser(page);
+    var fullname_dbclick = $("#fullname_profile").first();
+    var email_dbclick = $("#email_profile").first();
+    var phone_dbclick = $("#phone_profile").first();
+    var address_dbclick = $("#address_profile").first();
+    var about_dbclick = $("#about_profile").first();
+    fullname_dbclick.dblclick(function () {
+        if (dbclick==1) { 
+            $('#fullname_profile').prop('readonly', true);
+            dbclick=0;
+        }else if(dbclick==0){
+            $('#fullname_profile').prop('readonly', false);
+            dbclick=1;
+        }
+    });
+    about_dbclick.dblclick(function () {
+        if (abclick==1) { 
+            $('#about_profile').prop('readonly', true);
+            abclick=0;
+        }else if(dbclick==0){
+            $('#about_profile').prop('readonly', false);
+            abclick=1;
+        }
+    });
+
+    email_dbclick.dblclick(function () {
+        if (emclick==1) { 
+            $('#email_profile').prop('readonly', true);
+            emclick=0;
+        }else if(dbclick==0){
+            $('#email_profile').prop('readonly', false);
+            emclick=1;
+        }
+    });
+
+    phone_dbclick.dblclick(function () {
+        if (phoneclick==1) { 
+            $('#phone_profile').prop('readonly', true);
+            phoneclick=0;
+        }else if(dbclick==0){
+            $('#phone_profile').prop('readonly', false);
+            phoneclick=1;
+        }
+    });
+
+    address_dbclick.dblclick(function () {
+        if (phoneclick==1) { 
+            $('#address_profile').prop('readonly', true);
+            phoneclick=0;
+        }else if(dbclick==0){
+            $('#address_profile').prop('readonly', false);
+            phoneclick=1;
+        }
     });
 });
 
