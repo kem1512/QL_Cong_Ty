@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -20,12 +21,15 @@ class User extends Authenticatable
         'position_id',
         'department_id',
         'personnel_code',
+        'title',
         'email',
         'password',
         'fullname',
         'phone',
         'date_of_birth',
         'address',
+        'gender',
+        'about',
         'status',
         'recruitment_date',
         'img_url',
@@ -61,6 +65,15 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public static function getUsers()
+    {
+        $users = DB::table('users');
+        return $users->paginate(8);
+    }
+
+
+
     public static function UserBuild($nhansu)
     {
         $html = '
@@ -92,16 +105,22 @@ class User extends Authenticatable
                 </tr>
             </thead>
             <tbody> ';
+        if ($nhansu == null) {
+            $html .= '<p>không có dữ liệu</p>';
+        }
         foreach ($nhansu as $ns) {
             $html .= '
                     <tr>
                         <td class="">
-                            <p class="text-sm font-weight-bold mb-0">' . $ns->personnel_code . ' </p>
+                            <p class="text-sm font-weight-bold mb-0">' . $ns->personnel_code . '</p>
                         </td>
                         <td>
                             <div class="d-flex px-3 py-1">
-                                <div>
-                                    <img src="https://i.pravatar.cc/150?img=62" class="avatar me-3"
+                                <div>';
+            if ($ns->img_url == '') {
+                $ns->img_url = 'avatar2.png';
+            }
+            $html .= '<img src="./file/' . $ns->img_url . '" class="avatar me-3"
                                         alt="Avatar">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
@@ -111,51 +130,64 @@ class User extends Authenticatable
                         </td>
 
                         <td>
-                            <p class="text-sm font-weight-bold mb-0">' . $ns->email . '</p>
+                        <p class="text-sm font-weight-bold mb-0">' . $ns->email . '</p>
                         </td>
 
                         <td>';
-            if ($ns->department_id === 1) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Tổng Giám Đốc</p>';
-            } else if ($ns->position_id === 2) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Giám Đốc</p>';
-            } else if ($ns->position_id === 3) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Trưởng Phòng</p>';
-            } else if ($ns->position_id === 4) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Tổ Trưởng</p>';
-            } else if ($ns->position_id === 5) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Nhóm Trưởng</p>';
-            } else if ($ns->position_id === 6) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Chuyên Viên</p>';
-            } else if ($ns->position_id === 7) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Nhân Viên</p>';
-            } else if ($ns->position_id === 8) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Thử Việc</p>';
-            } else if ($ns->position_id === 9) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Học Việc</p>';
-            } else if ($ns->position_id === 10) {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Thực Tập Sinh</p>';
+            if (!$ns->title == '') {
+                $html .= '   <p class="text-sm font-weight-bold mb-0">' . $ns->title . '</p> ';
             } else {
-                $html .= ' <p class="text-sm font-weight-bold mb-0">Chưa Có</p>';
+                if ($ns->position_id === 1) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Tổng Giám Đốc</p>';
+                } else if ($ns->position_id === 2) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Giám Đốc</p>';
+                } else if ($ns->position_id === 3) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Trưởng Phòng</p>';
+                } else if ($ns->position_id === 4) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Tổ Trưởng</p>';
+                } else if ($ns->position_id === 5) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Nhóm Trưởng</p>';
+                } else if ($ns->position_id === 6) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Chuyên Viên</p>';
+                } else if ($ns->position_id === 7) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Nhân Viên</p>';
+                } else if ($ns->position_id === 8) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Thử Việc</p>';
+                } else if ($ns->position_id === 9) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Học Việc</p>';
+                } else if ($ns->position_id === 10) {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Thực Tập Sinh</p>';
+                } else {
+                    $html .= ' <p class="text-sm font-weight-bold mb-0">Chưa Có</p>';
+                }
             }
 
-            $html .= '  
-                        </td>
-
+            $html .= '</td>
                         <td class="align-middle text-center text-sm">
-                        <p class="text-sm font-weight-bold mb-0">' . $ns->position_id . '</p>';
+                        <!-- sau sử dụng dữ liệu default = 0 , và thêm điều kiện if else  -->';
+
+            if (!$ns->name == '') {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">' . $ns->name . '</p>';
+            } else {
+                $html .= ' <p class="text-sm font-weight-bold mb-0">Chưa vào phòng ban</p>';
+            }
+
             $html .= ' </td>
                         <td class="align-middle text-center text-sm"> ';
-            if ($ns->status === 1) {
+
+            if ($ns->status === 0) {
                 $html .= '
                 <span class ="badge badge-sm bg-gradient-secondary">Chưa kích hoạt</span>';
-            } else if ($ns->status === 2) {
+            } else if ($ns->status === 1) {
                 $html .= '<span class="badge badge-sm bg-gradient-success">Hoạt Động</span> ';
-            } else if ($ns->status === 3) {
+            } else if ($ns->status === 2) {
                 $html .= '<span class="badge badge-sm bg-gradient-light">Nghỉ Phép</span> ';
-            } else if ($ns->status === 4) {
+            } else if ($ns->status === 3) {
                 $html .= '<span class="badge badge-sm bg-gradient-danger">Khoá</span> ';
-            } else {
+            } else if ($ns->status === 4) {
+                $html .= '<span class="badge badge-sm bg-gradient-danger">Nghỉ Việc</span> ';
+            }
+             else {
                 $html .= '<span class="badge badge-sm bg-gradient-warning">Không xác định</span> ';
             }
 
@@ -179,6 +211,7 @@ class User extends Authenticatable
         $html .= '
             </tbody>
         </table>
+        ' . $nhansu->links() . '
     </div> ';
         return $html;
     }

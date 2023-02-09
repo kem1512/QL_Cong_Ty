@@ -10,8 +10,4 @@ class DepartmentController extends Controller
     public function index(){
         return view('pages/department/index');
     }
-
-    public function create(){
-        return 1213;
-    }
 }
