@@ -19,6 +19,8 @@ $(document).ready(function () {
     Submit();
     ChangeImage();
     ShowModal();
+    CancelUpdate();
+    Search();
 });
 
 function Get() {
@@ -37,7 +39,7 @@ function Get() {
                 html += '<div class="card-footer">';
                 html += '<div class="justify-content-center">';
                 html += '<button class="btn bg-gradient-primary btn-sm mx-2" id="btnSua" name="' + value.id + '"><i class="fa-solid fa-pen"></i></button>';
-                html += '<button class="btn bg-gradient-primary btn-sm mx-2" id="btnXem" name="' + value.id + '"><i class="fa-solid fa-eye"></i></button>';
+                html += '<a class="btn bg-gradient-primary btn-sm mx-2" href="equiment"><i class="fa-solid fa-eye"></i></a>';
                 html += '<button class="btn bg-gradient-danger btn-sm mx-2" id="btnXoa" name="' + value.id + '"><i class="fa-solid fa-trash-can"></i></button>';
                 html += '</div>';
                 html += '</div>';
@@ -72,7 +74,7 @@ function Redirect() {
 function Delete() {
 
     $(document).on('click', '#btnXoa', function (e) {
-        var id = e.target.name;
+        let id = $(this).attr('name');;
         Swal.fire({
             title: 'Bạn có chắc muốn xóa?',
             text: "",
@@ -104,20 +106,22 @@ function Delete() {
 }
 
 function Update() {
-    $(document).on('click', '#btnSua', function (e) {
-        var id = e.target.name;
+    $(document).on('click', '#btnSua', function () {
+        let id = $(this).attr('name');
         $.ajax({
             type: "get",
             url: "/warehouse/getbyid/" + id,
             dataType: "json",
             success: function (response) {
                 $('#exampleModalSignUp').modal('show');
-                $('input[name = "name"]').val(response.warehouse.name);
-                $('input[name = "address"]').val(response.warehouse.address);
-                $('#image-kho').attr('src', response.warehouse.image);
-                $('#flexSwitchCheckDefault').val(response.warehouse.status == 1 ? 'on' : null);
-                id_warehouse = response.warehouse.id;
+                $('input[name = "name"]').val(response.kho.name);
+                $('input[name = "address"]').val(response.kho.address);
+                $('#image-kho').attr('src', response.kho.image);
+                $('#flexSwitchCheckDefault').val(response.kho.status == 1 ? 'on' : null);
+                id_warehouse = response.kho.id;
                 create = false;
+                title = "Sửa Kho";
+                $('#title').text(title);
             }
         });
     });
@@ -143,8 +147,9 @@ function Submit() {
                 contentType: false,
                 success: function () {
                     orderby = 'desc';
-                    $('#formKho').trigger("reset");
+                    $('#formKho')[0].reset();
                     $('#exampleModalSignUp').modal('hide');
+                    $('#image-kho').attr('src', '');
                     Swal.fire(
                         'Good job',
                         'Thêm mới thành công',
@@ -166,22 +171,23 @@ function Submit() {
                 dataType: "json",
                 processData: false,
                 contentType: false,
-                success: function () {
-                    console.log(1);
-                    // $('#formKho').trigger("reset");
-                    // $('#exampleModalSignUp').modal('hide');
-                    // Swal.fire(
-                    //     'Good job',
-                    //     'Sửa thành công',
-                    //     'success'
-                    // );
-                    // Get();
-                    // create = true;
+                success: function (res) {
+                    $('#formKho')[0].reset();
+                    $('#exampleModalSignUp').modal('hide');
+                    $('#image-kho').attr('src', '');
+                    Swal.fire(
+                        'Good job',
+                        'Sửa thành công',
+                        'success'
+                    );
+                    Get();
+                    create = true;
+                    var title = "Thêm mới kho";
+                    $('#title').text(title);
                 },
                 error: function (err) {
-                    console.log(0);
-                    // $('#error-name').text(err.responseJSON.errors.name[0]);
-                    // $('#error-address').text(err.responseJSON.errors.address[0]);
+                    $('#error-name').text(err.responseJSON.errors.name[0]);
+                    $('#error-address').text(err.responseJSON.errors.address[0]);
                 }
             });
         }
@@ -196,6 +202,7 @@ function ChangeImage() {
         Reader.onload = function () {
             var url = Reader.result
             $('#image-kho').attr('src', url);
+            $('#image-kho').css('display', 'block')
         }
     })
 }
@@ -203,5 +210,24 @@ function ChangeImage() {
 function ShowModal() {
     $(document).on('click', '#btnThem', function () {
         $('#exampleModalSignUp').modal('show');
+        $('#image-kho').css('display', 'none')
+        var title = "Thêm mới kho";
+        $('#title').text(title);
+    })
+}
+
+function CancelUpdate() {
+    $(document).on('click', '#btnHuy', function () {
+        $('#formKho')[0].reset();
+        $('#exampleModalSignUp').modal('hide');
+        $('#image-kho').attr('src', '');
+        create = true;
+    });
+}
+
+function Search() {
+    $(document).on('change', '#txtSearch', function () {
+        keyword = $(this).val();
+        Get();
     })
 }
