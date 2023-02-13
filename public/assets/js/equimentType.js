@@ -134,8 +134,13 @@ function Submit() {
 }
 
 function Delete() {
+<<<<<<< HEAD
     $(document).on('click', '#btnXoa', function () {
         let id = $(this).attr('name');
+=======
+    $(document).on('click', '#btnXoa', function (e) {
+        let id = e.target.name;
+>>>>>>> NhanSu
         Swal.fire({
             title: 'Bạn có chắc muốn xóa?',
             text: "",
@@ -151,7 +156,11 @@ function Delete() {
                     type: "get",
                     url: "/equimenttype/delete/" + id,
                     dataType: "json",
+<<<<<<< HEAD
                     success: function () {
+=======
+                    success: function (response) {
+>>>>>>> NhanSu
                         Swal.fire(
                             'Good job',
                             'Xóa thành công',
@@ -166,16 +175,27 @@ function Delete() {
 }
 
 function GetEquiment() {
+<<<<<<< HEAD
     $(document).on('click', '#btnSua', function () {
         let id = $(this).attr('name');
+=======
+    $(document).on('click', '#btnSua', function (e) {
+        let id = e.target.name;
+>>>>>>> NhanSu
         $.ajax({
             type: "get",
             url: "/equimenttype/getbyid/" + id,
             dataType: "json",
             success: function (response) {
+<<<<<<< HEAD
                 $('input[name = "name"]').val(response.name);
                 response.status == 1 ? $('#flexSwitchCheckDefault').attr('checked', true) : $('#flexSwitchCheckDefault').attr('checked', false);
                 id = response.id;
+=======
+                $('input[name = "name"]').val(response[0].name);
+                response[0].status == 1 ? $('#flexSwitchCheckDefault').attr('checked', true) : $('#flexSwitchCheckDefault').attr('checked', false);
+                id = response[0].id;
+>>>>>>> NhanSu
                 id_equimenttype = id;
                 createCheck = false;
                 $('#btnHuy').css('display', 'block');

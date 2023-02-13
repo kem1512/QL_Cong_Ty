@@ -76,6 +76,7 @@
                     <span class="nav-link-text ms-1">Kho</span>
                 </a>
             </li>
+<<<<<<< HEAD
 
             <li class="nav-item">
                 <a class="nav-link mx-3 {{ Route::currentRouteName() == 'equiment' ? 'active' : '' }}" href="equiment">
@@ -83,6 +84,8 @@
                     <span class="nav-link-text ms-1">Thiết bị</span>
                 </a>
             </li>
+=======
+>>>>>>> NhanSu
             {{-- end Thiet bi link --}}
         </ul>
     </div>

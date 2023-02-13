@@ -57,7 +57,7 @@ class WareHousesController extends Controller
         $result = DB::table('storehouses')->find($id);
 
         return response()->json([
-            'kho' => $result,
+            'warehouse' => $result,
         ], 200);
     }
 
@@ -120,6 +120,8 @@ class WareHousesController extends Controller
                 'address.min' => "Địa chỉ phải lớn hơn 6 kí tự!",
             ]
         );
+
+        $file_name = "";
 
         if ($request->has('image')) {
             $file = $request->image;

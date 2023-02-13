@@ -1,10 +1,9 @@
-
 var fillterst;
 var fillterdp;
-var dbclick=0;
-var emclick=0;
-var phoneclick=0;
-var abclick=0;
+var dbclick = 0;
+var emclick = 0;
+var phoneclick = 0;
+var abclick = 0;
 // Ajax csrf_token
 $.ajaxSetup({
     headers: {
@@ -44,16 +43,14 @@ function onDelete(id) {
                         count_type: id,
                     },
                     success: function (result) {
-                         if (result.status=="error") {
+                        if (result.status == "error") {
                             onAlertError(result.message);
-                        }else {
+                        } else {
                             onAlertSuccess("Xoá Thành Công !");
                             $("#body_query").html(result.body);
                         }
-                       
                     },
                 });
-
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -69,14 +66,13 @@ function onDelete(id) {
 
 //Phân Trang
 $(document).ready(function () {
-      $(document).on("click", ".pagination a", function (e) {
-          e.preventDefault();
-          var page = $(this).attr("href");
-          console.log(page);
-          getMoresUser(page);
-      });
-  });
-  
+    $(document).on("click", ".pagination a", function (e) {
+        e.preventDefault();
+        var page = $(this).attr("href");
+        console.log(page);
+        getMoresUser(page);
+    });
+});
 
 // INSERT Personnel
 $("#btn_insert_personnel").on("click", function (e) {
@@ -244,8 +240,7 @@ function readURL(input) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            $('#img_url')
-                .attr('src', e.target.result);
+            $("#img_url").attr("src", e.target.result);
         };
 
         reader.readAsDataURL(input.files[0]);
@@ -259,51 +254,51 @@ $(document).ready(function () {
     var address_dbclick = $("#address_profile").first();
     var about_dbclick = $("#about_profile").first();
     fullname_dbclick.dblclick(function () {
-        if (dbclick==1) { 
-            $('#fullname_profile').prop('readonly', true);
-            dbclick=0;
-        }else if(dbclick==0){
-            $('#fullname_profile').prop('readonly', false);
-            dbclick=1;
+        if (dbclick == 1) {
+            $("#fullname_profile").prop("readonly", true);
+            dbclick = 0;
+        } else if (dbclick == 0) {
+            $("#fullname_profile").prop("readonly", false);
+            dbclick = 1;
         }
     });
     about_dbclick.dblclick(function () {
-        if (abclick==1) { 
-            $('#about_profile').prop('readonly', true);
-            abclick=0;
-        }else if(dbclick==0){
-            $('#about_profile').prop('readonly', false);
-            abclick=1;
+        if (abclick == 1) {
+            $("#about_profile").prop("readonly", true);
+            abclick = 0;
+        } else if (dbclick == 0) {
+            $("#about_profile").prop("readonly", false);
+            abclick = 1;
         }
     });
 
     email_dbclick.dblclick(function () {
-        if (emclick==1) { 
-            $('#email_profile').prop('readonly', true);
-            emclick=0;
-        }else if(dbclick==0){
-            $('#email_profile').prop('readonly', false);
-            emclick=1;
+        if (emclick == 1) {
+            $("#email_profile").prop("readonly", true);
+            emclick = 0;
+        } else if (dbclick == 0) {
+            $("#email_profile").prop("readonly", false);
+            emclick = 1;
         }
     });
 
     phone_dbclick.dblclick(function () {
-        if (phoneclick==1) { 
-            $('#phone_profile').prop('readonly', true);
-            phoneclick=0;
-        }else if(dbclick==0){
-            $('#phone_profile').prop('readonly', false);
-            phoneclick=1;
+        if (phoneclick == 1) {
+            $("#phone_profile").prop("readonly", true);
+            phoneclick = 0;
+        } else if (dbclick == 0) {
+            $("#phone_profile").prop("readonly", false);
+            phoneclick = 1;
         }
     });
 
     address_dbclick.dblclick(function () {
-        if (phoneclick==1) { 
-            $('#address_profile').prop('readonly', true);
-            phoneclick=0;
-        }else if(dbclick==0){
-            $('#address_profile').prop('readonly', false);
-            phoneclick=1;
+        if (phoneclick == 1) {
+            $("#address_profile").prop("readonly", true);
+            phoneclick = 0;
+        } else if (dbclick == 0) {
+            $("#address_profile").prop("readonly", false);
+            phoneclick = 1;
         }
     });
 });
