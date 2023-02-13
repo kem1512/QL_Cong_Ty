@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('position_id')->nullable()->constrained('positions')->onDelete('cascade');
-            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('cascade');
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->foreignId('position_id')->nullable()->constrained('positions')->onDelete('cascade');
+        //     $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('cascade');
+        // });
     }
 
     /**

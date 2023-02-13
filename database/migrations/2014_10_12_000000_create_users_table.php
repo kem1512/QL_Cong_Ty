@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('position_id')->unsigned()->nullable()->references('id')->on('positions')->onDelete('set null');
-            $table->bigInteger('department_id')->unsigned()->nullable()->references('id')->on('departments')->onDelete('set null');
+            $table->bigInteger('position_id')->unsigned()->nullable();
+            $table->bigInteger('department_id')->unsigned()->nullable();
             $table->string('personnel_code')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('password')->nullable();
