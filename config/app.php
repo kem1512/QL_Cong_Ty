@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Ho_Chi_Minh',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,14 +182,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class,
-        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
-            /*
-             * Package Service Providers...
-             */
 
-            /*
-             * Application Service Providers...
-             */
+     
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
             // App\Providers\BroadcastServiceProvider::class,
@@ -198,20 +192,9 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Class Aliases
-    |--------------------------------------------------------------------------
-    |
-    | This array of class aliases will be registered when this application
-    | is started. However, feel free to register as many as you wish as
-    | the aliases are "lazy" loaded so they don't hinder performance.
-    |
-    */
-
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 ];
