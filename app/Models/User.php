@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+=======
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+>>>>>>> NhanSu
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 
@@ -99,9 +106,18 @@ class User extends Authenticatable
                         Phòng Ban</th>
                     <th
                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+<<<<<<< HEAD
                         Trạng Thái</th>
                     <th
                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+=======
+                        Trạng Thái</th>';
+        if (Auth::user()->level == 2) {
+            $html .= '  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Chỉnh Sửa</th>';
+        }
+        $html .= ' <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+>>>>>>> NhanSu
                         Action</th>
                 </tr>
             </thead>
@@ -121,7 +137,11 @@ class User extends Authenticatable
             if ($ns->img_url == '') {
                 $ns->img_url = 'avatar2.png';
             }
+<<<<<<< HEAD
             $html .= '<img src="./file/' . $ns->img_url . '" class="avatar me-3"
+=======
+            $html .= '<img src="./img/' . $ns->img_url . '" class="avatar me-3"
+>>>>>>> NhanSu
                                         alt="Avatar">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
@@ -187,13 +207,27 @@ class User extends Authenticatable
                 $html .= '<span class="badge badge-sm bg-gradient-danger">Khoá</span> ';
             } else if ($ns->status === 4) {
                 $html .= '<span class="badge badge-sm bg-gradient-danger">Nghỉ Việc</span> ';
-            }
-             else {
+            } else {
                 $html .= '<span class="badge badge-sm bg-gradient-warning">Không xác định</span> ';
             }
-
-            $html .= '</td>
-                        <td class="align-middle text-end">
+            $html .= '</td>';
+            if (Auth::user()->level == 2) {
+                if ($ns->level == 0) {
+                    $html .= '  <td>
+                        <div class="form-check form-switch d-flex justify-content-center ">
+                            <input class="form-check-input read-checkbox-level" type="checkbox" level="' . $ns->id . '"  name="level">
+                        </div>
+                </td>';
+                } else {
+                    $html .= '  <td>
+                        <div class="form-check form-switch d-flex justify-content-center ">
+                            <input class="form-check-input read-checkbox-level" type="checkbox" level="' . $ns->id . '"  checked name="level">
+                        </div>
+                </td>';
+                }
+            }
+            if (!Auth::user()->level == 0) {
+                $html .= '   <td class="align-middle text-end">
                             <div class="d-flex px-3 py-1 justify-content-center align-items-center">    
                                 <a class="text-sm font-weight-bold mb-0 " id="btn-del"
                                     onclick="onDelete(' . $ns->id . ')">
@@ -208,6 +242,23 @@ class User extends Authenticatable
                             </div>
                         </td>
                     </tr> ';
+<<<<<<< HEAD
+=======
+            } else {
+                $html .= '</td>
+                        <td class="align-middle text-end">
+                            <div class="d-flex px-3 py-1 justify-content-center align-items-center">    
+                                <a id="btn-edit" data-bs-toggle="offcanvas"
+                                    onclick="getdetailview(' . $ns->id . ')"
+                                    data-bs-target="#offcanvasNavbarupdate"
+                                    class="text-sm font-weight-bold mb-0 ps-2">
+                                    view
+                                </a>
+                            </div>
+                        </td>
+                    </tr> ';
+            }
+>>>>>>> NhanSu
         }
         $html .= '
             </tbody>
