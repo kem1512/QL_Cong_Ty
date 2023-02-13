@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\WareHousesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,21 @@ Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('gues
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/personnel', [PersonnelController::class, 'show'])->name('personnel')->middleware('auth');
+Route::get('/personnel/delete', [App\Http\Controllers\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
+Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
+
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('department', [DepartmentController::class, 'index']);
+	Route::get('overview', [DepartmentController::class, 'overview'])->name('overview');
+	Route::get('getEmployeeInDepartment/{id?}', [DepartmentController::class, 'getEmployeeInDepartment']);
+	Route::get('getDepartment', [DepartmentController::class, 'getDepartment']);
+	Route::post('search', [DepartmentController::class, 'search'])->name('department.search');
+	Route::get('filter', [DepartmentController::class, 'filter'])->name('department.filter');
+	Route::post('department', [DepartmentController::class, 'createOrUpdate'])->name('department.createOrUpdate');
+	Route::delete('department', [DepartmentController::class, 'delete'])->name('department.delete');
+	Route::get('department/{id?}', [DepartmentController::class, 'display'])->name('department.display');
+
 
 //personnel
 Route::get('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'index'])->name('personnel.index');
@@ -112,4 +129,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
 });

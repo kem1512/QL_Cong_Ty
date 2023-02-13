@@ -33,7 +33,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Sai tài khoản hoặc mật khẩu !',
+            'email' => 'The provided credentials do not match our records.',
         ]);
     }
 
