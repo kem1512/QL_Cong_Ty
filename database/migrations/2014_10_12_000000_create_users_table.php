@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rules\Unique;
 
 return new class extends Migration
 {
@@ -24,10 +25,11 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('address')->nullable();
-            $table->integer('status')->nullable();
+            $table->integer('status')->default(0);
             $table->date('recruitment_date')->nullable();
             $table->string('img_url')->nullable();
-            $table->integer('level')->nullable();
+            $table->integer('gender')->default(0);
+            $table->integer('level')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

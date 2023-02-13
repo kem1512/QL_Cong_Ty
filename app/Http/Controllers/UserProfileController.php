@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
 {
     public function show()
     {
-        return view('pages.user-profile');
+        $birthDate = Auth::user()->date_of_birth;
+        
+        $age = floor((time() - strtotime($birthDate)) / 31556926);
+        return view('pages.user-profile')->with('age', $age);
     }
 
     public function update(Request $request)
@@ -24,18 +28,6 @@ class UserProfileController extends Controller
             'country' => ['max:100'],
             'postal' => ['max:100'],
             'about' => ['max:255']
-        ]);
-
-        auth()->user()->update([
-            'username' => $request->get('username'),
-            'firstname' => $request->get('firstname'),
-            'lastname' => $request->get('lastname'),
-            'email' => $request->get('email') ,
-            'address' => $request->get('address'),
-            'city' => $request->get('city'),
-            'country' => $request->get('country'),
-            'postal' => $request->get('postal'),
-            'about' => $request->get('about')
         ]);
         return back()->with('succes', 'Profile succesfully updated');
     }
