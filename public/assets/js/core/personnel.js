@@ -1,21 +1,10 @@
+
 var fillterst;
 var fillterdp;
-var num;
-var dbclick = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-];
+var dbclick=0;
+var emclick=0;
+var phoneclick=0;
+var abclick=0;
 // Ajax csrf_token
 $.ajaxSetup({
     headers: {
@@ -55,14 +44,16 @@ function onDelete(id) {
                         count_type: id,
                     },
                     success: function (result) {
-                        if (result.status == "error") {
+                         if (result.status=="error") {
                             onAlertError(result.message);
-                        } else {
+                        }else {
                             onAlertSuccess("Xoá Thành Công !");
                             $("#body_query").html(result.body);
                         }
+
                     },
                 });
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -78,13 +69,14 @@ function onDelete(id) {
 
 //Phân Trang
 $(document).ready(function () {
-    $(document).on("click", ".pagination a", function (e) {
-        e.preventDefault();
-        var page = $(this).attr("href");
-        console.log(page);
-        getMoresUser(page);
-    });
-});
+      $(document).on("click", ".pagination a", function (e) {
+          e.preventDefault();
+          var page = $(this).attr("href");
+          console.log(page);
+          getMoresUser(page);
+      });
+  });
+
 
 // INSERT Personnel
 $("#btn_insert_personnel").on("click", function (e) {
@@ -125,32 +117,6 @@ $("#btn_insert_personnel").on("click", function (e) {
     }
 });
 
-$(".read-checkbox-level").on("change", function () {
-    var level;
-    var id = id;
-    var id = $(this).attr("level");
-    var st = $(this).is(":checked");
-    if (st == true) {
-        level = 1;
-    } else {
-        level = 0;
-    }
-    $.ajax({
-        url: "/personnel/level",
-        method: "GET",
-        data: {
-            id: id,
-            level: level,
-        },
-        success: function (result) {
-            onAlertSuccess(result.message);
-        },
-        error: function (error) {
-            onAlertError(error.responseJSON.message);
-        },
-    });
-});
-
 //GET Personnel where id
 function getdetail(id) {
     $.ajax({
@@ -164,7 +130,7 @@ function getdetail(id) {
             if (nhansu.img_url == null) {
                 nhansu.img_url = "avatar2.png";
             }
-            $("#img_url").attr("src", "./img/" + nhansu.img_url);
+            $("#img_url").attr("src", "./file/" + nhansu.img_url);
             $("#id_user").val(nhansu.id);
             $("#about").val(nhansu.about);
             $("#gender").val(nhansu.gender);
@@ -186,56 +152,13 @@ function getdetail(id) {
         },
     });
 }
-//GET Personnel where id views
-function getdetailview(id) {
-    $.ajax({
-        url: "/personnel/edit",
-        method: "GET",
-        data: {
-            id: id,
-        },
-        success: function (result) {
-            var nhansu = result.data;
-            if (nhansu.img_url == null) {
-                nhansu.img_url = "avatar2.png";
-            }
-            $("#img_url").attr("src", "./img/" + nhansu.img_url);
-            $("#id_user").val(nhansu.id).prop("disabled", true);
-            $("#about").val(nhansu.about).prop("disabled", true);
-            $("#gender").val(nhansu.gender).prop("disabled", true);
-            $("#title").val(nhansu.title).prop("disabled", true);
-            $("#personnel_codeu")
-                .val(nhansu.personnel_code)
-                .prop("disabled", true);
-            $("#fullnameu").val(nhansu.fullname).prop("disabled", true);
-            $("#phoneu").val(nhansu.phone).prop("disabled", true);
-            $("#emailu").val(nhansu.email).prop("disabled", true);
-            $("#passwordu").val(nhansu.password).prop("disabled", true);
-            $("#department_idu")
-                .val(nhansu.department_id)
-                .prop("disabled", true);
-            $("#date_of_birthu")
-                .val(nhansu.date_of_birth)
-                .prop("disabled", true);
-            $("#position_idu").val(nhansu.position_id).prop("disabled", true);
-            $("#recruitment_dateu")
-                .val(nhansu.recruitment_date)
-                .prop("disabled", true);
-            $("#statusu").val(nhansu.status).prop("disabled", true);
-            $("#addressup").val(nhansu.address).prop("disabled", true);
-        },
-        error: function (error) {
-            onAlertError("Vui lòng kiểm tra và thử lại !");
-        },
-    });
-}
 
 //UPDATE
 $(document).ready(function () {
     $("#form_update").on("submit", function (e) {
         e.preventDefault();
         let formData = new FormData(this);
-        // console.log(formData);
+        console.log(formData);
         $.ajax({
             type: "POST",
             url: "/personnel",
@@ -243,13 +166,8 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: (response) => {
-                if (response.status == "error") {
-                    console.log(response.message);
-                    onAlertError(response.message);
-                } else {
-                    onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
-                    $("#body_query").html(response.body);
-                }
+                onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
+                $("#body_query").html(response.body);
             },
             error: function (error) {
                 onAlertError(error.responseJSON.message);
@@ -258,62 +176,6 @@ $(document).ready(function () {
     });
 });
 
-// UPDATE_profile;
-$(document).ready(function () {
-    $("#form_profile").on("submit", function (e) {
-        e.preventDefault();
-        // let formData = new FormData(this);
-        var fullname = $("#fullname_profile").val();
-        var phone = $("#phone_profile").val();
-        var email = $("#email_profile").val();
-        var date_of_birth = $("#date_of_birth_profile").val();
-        var gender = $("#gender_profile").val();
-        var address = $("#address_profile").val();
-        var position_id = $("#position_id_profile").val();
-        var department_id = $("#department_id_profile").val();
-        var about = $("#about_profile").val();
-        var data = {
-            fullname: fullname,
-            phone: phone,
-            email: email,
-            date_of_birth: date_of_birth,
-            gender: gender,
-            address: address,
-            position_id: position_id,
-            department_id: department_id,
-            about: about,
-        };
-        console.log(data);
-        $.ajax({
-            type: "POST",
-            url: "/personnel/profile",
-            data: {
-                fullname: fullname,
-                phone: phone,
-                email: email,
-                date_of_birth: date_of_birth,
-                gender: gender,
-                address: address,
-                position_id: position_id,
-                department_id: department_id,
-                about: about,
-            },
-            success: (response) => {
-                if (response.status == "error") {
-                    console.log(response.message);
-                    onAlertError(response.message);
-                } else {
-                    onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
-                    $("#body_query").html(response.body);
-                    setfaild();
-                }
-            },
-            error: function (error) {
-                onAlertError(error.responseJSON.message);
-            },
-        });
-    });
-});
 //Search
 $(document).ready(function () {
     $("#search").keyup(function () {
@@ -380,76 +242,72 @@ $(document).ready(function () {
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
+
         reader.onload = function (e) {
-            $("#img_url").attr("src", e.target.result);
+            $('#img_url')
+                .attr('src', e.target.result);
         };
 
         reader.readAsDataURL(input.files[0]);
     }
 }
-//AVTIVE form
-$(document).on("dblclick", ".dbcl_ctl", function () {
-    var id_clicked = "#" + $(this).attr("id");
-    if (id_clicked == "#fullname_profile") {
-        num = 0;
-    } else if (id_clicked == "#email_profile") {
-        num = 1;
-    } else if (id_clicked == "#phone_profile") {
-        num = 2;
-    } else if (id_clicked == "#date_of_birth_profile") {
-        num = 3;
-    } else if (id_clicked == "#gender_profile") {
-        num = 4;
-    } else if (id_clicked == "#position_id_profile") {
-        num = 5;
-    } else if (id_clicked == "#address_profile") {
-        num = 6;
-    } else if (id_clicked == "#recruitment_date") {
-        num = 7;
-    } else if (id_clicked == "#about_profile") {
-        num = 8;
-    } else if (id_clicked == "#department_id_profile") {
-        num = 9;
-    }
-    // alert(dbclick[num]);
-    if (dbclick[num] == true) {
-        $(id_clicked).prop("disabled", true);
-        dbclick[num] = false;
-        console.log("ĐÃ Ẩn");
-        console.log(dbclick[num]);
-    } else {
-        $(id_clicked).prop("disabled", false);
-        dbclick[num] = true;
-        console.log("ĐÃ Hiện");
-        console.log(dbclick[num]);
-    }
+
+$(document).ready(function () {
+    var fullname_dbclick = $("#fullname_profile").first();
+    var email_dbclick = $("#email_profile").first();
+    var phone_dbclick = $("#phone_profile").first();
+    var address_dbclick = $("#address_profile").first();
+    var about_dbclick = $("#about_profile").first();
+    fullname_dbclick.dblclick(function () {
+        if (dbclick==1) {
+            $('#fullname_profile').prop('readonly', true);
+            dbclick=0;
+        }else if(dbclick==0){
+            $('#fullname_profile').prop('readonly', false);
+            dbclick=1;
+        }
+    });
+    about_dbclick.dblclick(function () {
+        if (abclick==1) {
+            $('#about_profile').prop('readonly', true);
+            abclick=0;
+        }else if(dbclick==0){
+            $('#about_profile').prop('readonly', false);
+            abclick=1;
+        }
+    });
+
+    email_dbclick.dblclick(function () {
+        if (emclick==1) {
+            $('#email_profile').prop('readonly', true);
+            emclick=0;
+        }else if(dbclick==0){
+            $('#email_profile').prop('readonly', false);
+            emclick=1;
+        }
+    });
+
+    phone_dbclick.dblclick(function () {
+        if (phoneclick==1) {
+            $('#phone_profile').prop('readonly', true);
+            phoneclick=0;
+        }else if(dbclick==0){
+            $('#phone_profile').prop('readonly', false);
+            phoneclick=1;
+        }
+    });
+
+    address_dbclick.dblclick(function () {
+        if (phoneclick==1) {
+            $('#address_profile').prop('readonly', true);
+            phoneclick=0;
+        }else if(dbclick==0){
+            $('#address_profile').prop('readonly', false);
+            phoneclick=1;
+        }
+    });
 });
-function setfaild() {
-    $("#fullname_profile").prop("disabled", true);
-    $("#phone_profile").prop("disabled", true);
-    $("#email_profile").prop("disabled", true);
-    $("#date_of_birth_profile").prop("disabled", true);
-    $("#gender_profile").prop("disabled", true);
-    $("#address_profile").prop("disabled", true);
-    $("#position_id_profile").prop("disabled", true);
-    $("#department_id_profile").prop("disabled", true);
-    $("#about_profile").prop("disabled", true);
-    dbclick = [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-    ];
-}
+
 function getMoresUser(page) {
     $.ajax({
         type: "GET",

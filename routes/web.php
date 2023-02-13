@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\WareHousesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\EquimentTypeController;
 
 Route::get('/', function () {
@@ -38,17 +40,30 @@ Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('gues
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/personnel', [PersonnelController::class, 'show'])->name('personnel')->middleware('auth');
+Route::get('/personnel/delete', [App\Http\Controllers\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
+Route::post('/personnel/add', [App\Http\Controllers\PersonnelController::class, 'store'])->middleware('auth')->name('create.user');
+
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('department', [DepartmentController::class, 'index']);
+	Route::get('overview', [DepartmentController::class, 'overview'])->name('overview');
+	Route::get('getEmployeeInDepartment/{id?}', [DepartmentController::class, 'getEmployeeInDepartment']);
+	Route::get('getDepartment', [DepartmentController::class, 'getDepartment']);
+	Route::post('search', [DepartmentController::class, 'search'])->name('department.search');
+	Route::get('filter', [DepartmentController::class, 'filter'])->name('department.filter');
+	Route::post('department', [DepartmentController::class, 'createOrUpdate'])->name('department.createOrUpdate');
+	Route::delete('department', [DepartmentController::class, 'delete'])->name('department.delete');
+	Route::get('department/{id?}', [DepartmentController::class, 'display'])->name('department.display');
+
 
 //personnel
-Route::get('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'index'])->name('personnel.index')->middleware('auth');
-Route::get('/personnel/edit', [App\Http\Controllers\Admin\PersonnelController::class, 'edit'])->name('personnel.edit')->middleware('auth');
-Route::delete('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'destroy'])->name('delete')->middleware('auth');
-Route::post('/personnel/add', [App\Http\Controllers\Admin\PersonnelController::class, 'store'])->name('create.user')->middleware('auth');
-Route::post('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'update'])->name('update.user')->middleware('auth');
-Route::post('/personnel/profile', [App\Http\Controllers\UserProfileController::class, 'update_profile'])->name('update.profile')->middleware('auth');
-Route::get('/personnel/search', [App\Http\Controllers\Admin\PersonnelController::class, 'search'])->name('Search')->middleware('auth');
-Route::get('/personnel/fillter', [App\Http\Controllers\Admin\PersonnelController::class, 'fillter'])->name('fillter')->middleware('auth');
-Route::get('/personnel/level', [App\Http\Controllers\Admin\PersonnelController::class, 'editLevel'])->name('editLevel')->middleware('auth');
+Route::get('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'index'])->name('personnel.index');
+Route::get('/personnel/edit', [App\Http\Controllers\Admin\PersonnelController::class, 'edit'])->name('personnel.edit');
+Route::delete('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'destroy'])->name('delete');
+Route::post('/personnel/add', [App\Http\Controllers\Admin\PersonnelController::class, 'store'])->name('create.user');
+Route::post('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'update'])->name('update.user');
+Route::get('/personnel/search', [App\Http\Controllers\Admin\PersonnelController::class, 'search'])->name('Search');
+Route::get('/personnel/fillter', [App\Http\Controllers\Admin\PersonnelController::class, 'fillter'])->name('fillter');
 Route::group(['middleware' => 'auth'], function () {
 	// Route::get('department', 'DepartmentController@Index');
 	//Route thiết bị
@@ -59,8 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get(
 				'/',
 				function () {
-					return view('pages.Equiments.Equiment_Type.Index');
-				}
+						return view('pages.Equiments.Equiment_Type.Index');
+					}
 			)->name('equimenttype');
 			Route::get('get/{perpage?}/{orderby?}/{keyword?}', [EquimentTypeController::class, 'Get']);
 			Route::post('post', [EquimentTypeController::class, 'Post']);
@@ -77,8 +92,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get(
 				'/',
 				function () {
-					return view('pages.Equiments.warehouse.wavehouse');
-				}
+						return view('pages.Equiments.warehouse.wavehouse');
+					}
 			)->name('warehouse');
 			Route::get('get/{perpage?}/{orderby?}/{keyword?}', [WareHousesController::class, 'Get']);
 			Route::get('delete/{id?}', [WareHousesController::class, 'Delete']);
@@ -114,4 +129,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
 });
