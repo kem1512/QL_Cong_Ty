@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->bigInteger('id_department_parent')->unsigned()->nullable();
-            $table->bigInteger('id_leader')->unsigned()->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreign('id_department_parent')->references('id')->on('departments')->onDelete('set null');
+            $table->bigInteger('id_leader')->unsigned()->nullable()->references('id')->on('users')->onDelete('set null');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
