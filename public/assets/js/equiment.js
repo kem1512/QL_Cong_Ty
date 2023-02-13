@@ -26,14 +26,13 @@ function Get() {
         dataType: "json",
         success: function (response) {
             let html = '';
-            for (const key in response.data) {
+            for (const key in response) {
                 html += '<tr>\
-                            <td rowspan="'+ (response.data[key].length + 1) + '">' + key + '</td>\
+                            <td rowspan="'+ (response[key].data.length + 1) + '">' + key + '</td>\
                         </tr>';
-
-                $.each(response.data[key], function (index, value) {
+                $.each(response[key].data, function (index, value) {
                     html += '<tr>\
-                                <td class="align-middle text-center">'+ value.image + '</td>\
+                                <td class="align-middle text-center w-25"><img class="w-25" src="/uploads/'+ value.image + '"/></td>\
                                 <td class="align-middle text-center" style="border-left-width: 1px;border-right-width: 1px;">'+ value.name + '</td>\
                                 <td class="align-middle text-center" style="border-right-width: 1px;"><span class="badge bg-gradient-success">'+ (value.status == 'active' ? 'Hoạt động' : value.status == 'inactive' ? 'Không hoạt động' : 'Đang hỏng') + '</span></td>\
                                 <td class="align-middle text-center" style="border-right-width: 1px;"><button class="btn btn-primary">Sửa</button></td>\

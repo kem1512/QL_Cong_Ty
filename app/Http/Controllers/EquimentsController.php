@@ -28,22 +28,24 @@ class EquimentsController extends Controller
             $newtable = array();
 
             foreach ($equiment_types as $value) {
+
                 $result = DB::table('equiments as e')
                     ->select(['id', 'image', 'name', 'status'])
                     ->where('e.equiment_type_id', '=', $value->id)
                     ->get()
                     ->toArray();
 
-                if (count($result) != 0) {
-                    $newtable['' . $value->name . ''] = $result;
+
+                $list_equiment = $this->paginate($result, $perpage, $curentpage);
+
+                if (count($list_equiment) != 0) {
+                    $newtable['' . $value->name . ''] = $list_equiment;
                 }
 
             }
         }
 
-        $equiments = $this->paginate($newtable, $perpage, $curentpage);
-
-        return $equiments;
+        return $newtable;
     }
 
     function paginate($item, $perpage, $page)
