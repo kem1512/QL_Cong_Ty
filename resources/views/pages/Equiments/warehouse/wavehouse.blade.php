@@ -65,32 +65,32 @@
                         <div class="card-body pb-3">
                             <div class="d-flex justify-content-center">
                                 <img id="image-kho" class="img-fluid border border-primary"
-                                    style="width: 200px;height: 200px;">
+                                    style="width: 200px;height: 200px;" src="">
                             </div>
                             <div>
                                 <form id="formKho" role="form text-left">
                                     <div class="d-flex justify-content-between">
-                                        <label>Tên kho</label>
+                                        <label>Tên kho (<strong class="text-danger">*</strong>)</label>
                                         <label id="error-name" class="form-control-label text-danger"></label>
                                     </div>
                                     <div class="input-group mb-3">
                                         <input type="text" name="name" class="form-control">
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <label>Địa chỉ</label>
+                                        <label>Địa chỉ (<strong class="text-danger">*</strong>)</label>
                                         <label id="error-address" class="form-control-label text-danger"></label>
                                     </div>
                                     <div class="input-group mb-3">
                                         <input type="text" name="address" class="form-control">
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <label>Ảnh</label>
+                                        <label>Ảnh (<strong class="text-danger">*</strong>)</label>
                                         <label id="error-image" class="form-control-label text-danger"></label>
                                     </div>
                                     <div class="input-group mb-3">
                                         <input id="image" type="file" name="image" class="form-control">
                                     </div>
-                                    <label>Trạng thái</label>
+                                    <label>Trạng thái (<strong class="text-danger">*</strong>)</label>
                                     <div class="form-check form-switch mt-1">
                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked
                                             name="status">
@@ -102,7 +102,7 @@
                                                     class="fa-solid fa-floppy-disk"></i></button>
                                             <button type="button"
                                                 class="btn bg-gradient-secondary btn-lg btn-rounded w-100 mt-4 mb-0"
-                                                data-bs-dismiss="modal"><i class="fa-solid fa-x"></i></button>
+                                                id="btnHuy"><i class="fa-solid fa-x"></i></button>
                                         </div>
                                     </div>
                                 </form>

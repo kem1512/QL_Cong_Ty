@@ -1,6 +1,9 @@
 <?php
+use App\Http\Controllers\EquimentsController;
+
 
 use App\Http\Controllers\Admin\DepartmentController;
+
 use App\Http\Controllers\WareHousesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -102,6 +105,18 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('update/{id?}', [WareHousesController::class, 'Update']);
 		}
 	);
+
+	//Thiết bị
+	Route::group(
+		['prefix' => 'equiment'],
+		function () {
+			Route::get('/', [EquimentsController::class, 'Index'])->name('equiment');
+			Route::get('get/{perpage?}/{currentpage?}/{keyword?}', [EquimentsController::class, 'Get']);
+			Route::post('post', [EquimentsController::class, 'Create']);
+			Route::post('importexcel', [EquimentsController::class, 'ImportExcel']);
+		}
+	);
+
 	//End route thiết bị
 	Route::post(
 		'get_departments',

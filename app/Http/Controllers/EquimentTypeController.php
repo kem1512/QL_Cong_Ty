@@ -60,7 +60,7 @@ class EquimentTypeController extends Controller
 
     public function Get_By_Id($id)
     {
-        return DB::table('equiment_types')->where('id', '=', $id)->get();
+        return DB::table('equiment_types')->find($id);
     }
 
     public function Update($id, Request $request)
