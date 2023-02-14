@@ -19,6 +19,8 @@ $(document).ready(function () {
     Submit();
     ChangeImage();
     ShowModal();
+    CancelUpdate();
+    Search();
 });
 
 function Get() {
@@ -133,13 +135,13 @@ function Update() {
             dataType: "json",
             success: function (response) {
                 $("#exampleModalSignUp").modal("show");
-                $('input[name = "name"]').val(response.kho.name);
-                $('input[name = "address"]').val(response.kho.address);
-                $("#image-kho").attr("src", response.kho.image);
+                $('input[name = "name"]').val(response.warehouse.name);
+                $('input[name = "address"]').val(response.warehouse.address);
+                $("#image-kho").attr("src", response.warehouse.image);
                 $("#flexSwitchCheckDefault").val(
-                    response.kho.status == 1 ? "on" : null
+                    response.warehouse.status == 1 ? "on" : null
                 );
-                id_warehouse = response.kho.id;
+                id_warehouse = response.warehouse.id;
                 create = false;
                 title = "Sửa Kho";
                 $("#title").text(title);
