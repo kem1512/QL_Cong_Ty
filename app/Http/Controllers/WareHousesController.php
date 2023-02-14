@@ -106,6 +106,7 @@ class WareHousesController extends Controller
     public function Update($id, Request $request)
     {
         $image_old = DB::table('storehouses')->where('id', $id)->select(['image'])->get();
+        $image = $image_old[0]->image;
 
         $request->validate(
             [
@@ -127,7 +128,7 @@ class WareHousesController extends Controller
             $file_name = $file->getClientOriginalName();
             $file->move(public_path('uploads'), $file_name);
         } else {
-            $file_name = $image_old->split("/")[1];
+            $file_name = str_replace('uploads/', '', $image);
         }
 
         $name = $request->name;

@@ -110,7 +110,7 @@
                             <label for="staticEmail" class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-6">
                                 <input type="text" name="email" id="email" class="form-control" id="staticEmail"
-                                    placeholder="email@example.com" />
+                                    placeholder="(vd: email@example.com)" />
                                 <span class="text-danger text-xs pt-1 email_error"></span>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                             <label for="mansadd" class="col-sm-4 col-form-label">Địa Chỉ</label>
                             <div class="col-sm-6">
                                 <input type="text" name="personnel_code" id="address" class="form-control"
-                                    placeholder="(vd : SCN0001)" />
+                                    placeholder="(vd : Hà Nội)" />
                                 <span class="text-danger text-xs pt-1 address_error"></span>
                             </div>
                         </div>
@@ -170,7 +170,8 @@
                                             alt="ảnh Nhân sự" />
                                     </div>
                                     <div class="m-3 col-9">
-                                        <input type="file" name="img_url" onchange="readURL(this);" class="form-control" id="img_url_update">
+                                        <input type="file" name="img_url" onchange="readURL(this);"
+                                            class="form-control" id="img_url_update">
                                     </div>
                                 </div>
 
@@ -205,7 +206,6 @@
                                         <input type="text" name="address" id="addressup" class="form-control"
                                             id="phone" required />
                                     </div>
-                                    
                                 </div>
                                 <div class="col-4">
                                     <label for="phongban" class="col-sm-4 col-form-label">Phòng Ban :</label>
@@ -221,8 +221,7 @@
                                         @endforeach
                                     </select>
                                     <label for="chucvu" class="col-sm-4 col-form-label">Chức Danh :</label>
-                                    <input type="text" name="title" class="form-control"
-                                            id="title" required />
+                                    <input type="text" name="title" class="form-control" id="title" required />
                                     <label for="trangthai" class="col-sm-4 col-form-label">Trạng Thái :</label>
                                     <select class="form-control" name="status" id="statusu">
                                         <option value="0">Chưa Kích Hoạt</option>
@@ -261,13 +260,16 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <label for="exampleFormControlTextarea1" class="col-sm-4 col-form-label">Giới Thiệu Về bản Thân
+                                <label for="exampleFormControlTextarea1" class="col-sm-4 col-form-label">Giới Thiệu Về bản
+                                    Thân
                                     :</label>
                                 <textarea class="form-control" name="about" id="about" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="btn-group-update mt-5 align-items-center justify-content-center">
-                            <button class="btn btn-primary" id="btn_update_personnel">Cập Nhật</button>
+                            @if (!$level == 0)
+                                <button class="btn btn-primary" id="btn_update_personnel">Cập Nhật</button>
+                            @endif
                             <a data-bs-dismiss="offcanvas" aria-label="Close" class="btn btn-danger">Close</a>
                         </div>
                     </form>
@@ -307,8 +309,10 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <a id="form-add" class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasNavbar">Thêm</a>
+                            @if (!$level == 0)
+                                <a id="form-add" class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasNavbar">Thêm</a>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2" id="body_query">
