@@ -20,21 +20,18 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('jqueryui/jquery-ui.min.css') }}">
     <!-- Sweetalert2 -->
     <link href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-    <<<<<<< HEAD <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .no-border {
-            =======<style>.no-border {
-                >>>>>>>NhanSu border: 0;
-                box-shadow: none;
-            }
+            border: 0;
+            box-shadow: none;
+        }
 
-            <<<<<<< HEAD .no-border:disabled {
-                =======.no-border:disabled {
-                    >>>>>>>NhanSu background: white;
-                    cursor: auto
-                }
+        .no-border:disabled {
+            background: white;
+            cursor: auto
+        }
     </style>
 </head>
 
@@ -54,6 +51,7 @@
                     'recover-password',
                     'rtl',
                     'virtual-reality',
+                    'department',
                     'overview',
                 ]))
             @yield('content')

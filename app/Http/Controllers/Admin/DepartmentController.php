@@ -89,6 +89,10 @@ class DepartmentController extends Controller
         $name = $request->name ?? '';
         $datetime = $request->datetime ?? date('Y-m-d H:i:s');
 
+        // $departments = Department::with('department_childs')->where([
+        //     ['status', 'like', '%' . $status . '%'], 
+        //     ['name', 'like', '%' . $name . '%']
+        // ])->whereDate('created_at', '<=', $datetime)->orderby('id', 'desc')->paginate($per_page);
         $departments = Department::with('department_childs')->where([
             ['status', 'like', '%' . $status . '%'],
             ['name', 'like', '%' . $name . '%']

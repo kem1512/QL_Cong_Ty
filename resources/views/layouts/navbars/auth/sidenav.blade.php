@@ -9,7 +9,7 @@
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse  w-auto h-100 " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}"
@@ -76,24 +76,31 @@
                     <span class="nav-link-text ms-1">Kho</span>
                 </a>
             </li>
-<<<<<<< HEAD
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Phòng Ban</h6>
+            </li>
+            {{-- Thiet bi link --}}
+            <li class="nav-item">
+                <a class="nav-link mx-3 {{ Route::currentRouteName() == 'department' ? 'active' : '' }}"
+                    href="department">
+                    <i class="fa-solid fa-memory text-primary"></i>
+                    <span class="nav-link-text ms-1">Quản Lý Phòng Ban</span>
+                </a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link mx-3 {{ Route::currentRouteName() == 'overview' ? 'active' : '' }}" href="overview">
+                    <i class="fa-solid fa-warehouse text-primary"></i>
+                    <span class="nav-link-text ms-1">Sơ Đồ Công Ty</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link mx-3 {{ Route::currentRouteName() == 'equiment' ? 'active' : '' }}" href="equiment">
                     <i class="fa-solid fa-hard-drive text-primary"></i>
                     <span class="nav-link-text ms-1">Thiết bị</span>
                 </a>
             </li>
-=======
->>>>>>> NhanSu
             {{-- end Thiet bi link --}}
         </ul>
-    </div>
-    <div class="sidenav-footer mx-3 ">
-        <a href="{{ route('logout') }}"
-            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-            class="btn btn-primary btn-sm mb-0 w-100">
-            Log out
-        </a>
     </div>
 </aside>

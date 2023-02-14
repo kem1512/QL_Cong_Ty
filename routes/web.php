@@ -1,10 +1,6 @@
 <?php
-
 use App\Http\Controllers\EquimentsController;
-
-
 use App\Http\Controllers\Admin\DepartmentController;
-
 use App\Http\Controllers\WareHousesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -117,7 +113,6 @@ Route::group(['middleware' => 'auth'], function () {
 				Route::post('importexcel', [EquimentsController::class, 'ImportExcel']);
 			}
 		);
-
 		//End route thiết bị
 		Route::post(
 			'get_departments',
