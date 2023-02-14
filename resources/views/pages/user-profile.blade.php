@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
-                    <form method="POST" id="form_profile" action={{ route('update.profile') }}>
+                    <form method="POST" id="form_update_profile" action={{ route('update.profile') }}>
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
@@ -30,7 +30,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Mã Nhân Sự</label>
-                                        <input class="form-control dbcl_ctl" id="personnel_code_profile" type="text"
+                                        <input class="form-control" id="personnel_code_profile" type="text"
                                             value="{{ $users->personnel_code }}" disabled="true">
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@
                             <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                                 <a href="javascript:;">
                                     @if (!auth()->user()->img_url == '')
-                                        <img src="./file/{{ auth()->user()->img_url }}"
+                                        <img src="./img/{{ auth()->user()->img_url }}"
                                             class="rounded-circle img-fluid border border-2 border-white">
                                     @else
                                         <img src="/img/team-2.jpg"

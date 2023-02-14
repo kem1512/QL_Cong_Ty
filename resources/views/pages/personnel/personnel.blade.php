@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="form-update">
                                         <label for="mans" class="col-sm-4 col-form-label">Mã Nhân Sự :</label>
-                                        <input type="text" readonly id="personnel_codeu" class="form-control"
+                                        <input type="text" disabled id="personnel_codeu" class="form-control"
                                             id="mans" required />
                                     </div>
                                     <div class="form-update">
@@ -267,9 +267,10 @@
                             </div>
                         </div>
                         <div class="btn-group-update mt-5 align-items-center justify-content-center">
-                            @if (!$level == 0)
+                            @if (!Auth::user()->level == 0)
                                 <button class="btn btn-primary" id="btn_update_personnel">Cập Nhật</button>
                             @endif
+
                             <a data-bs-dismiss="offcanvas" aria-label="Close" class="btn btn-danger">Close</a>
                         </div>
                     </form>
@@ -309,10 +310,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @if (!$level == 0)
+                            @if (!Auth::user()->level == 0)
                                 <a id="form-add" class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasNavbar">Thêm</a>
                             @endif
+
                         </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2" id="body_query">

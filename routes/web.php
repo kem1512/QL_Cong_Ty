@@ -1,6 +1,10 @@
 <?php
+
 use App\Http\Controllers\EquimentsController;
+
+
 use App\Http\Controllers\Admin\DepartmentController;
+
 use App\Http\Controllers\WareHousesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +67,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/personnel/add', [App\Http\Controllers\Admin\PersonnelController::class, 'store'])->name('create.user');
 	Route::post('/personnel', [App\Http\Controllers\Admin\PersonnelController::class, 'update'])->name('update.user');
 	Route::get('/personnel/search', [App\Http\Controllers\Admin\PersonnelController::class, 'search'])->name('Search');
+	Route::post('/personnel/profile', [App\Http\Controllers\UserProfileController::class, 'update_profile'])->name('update.profile');
+	Route::post('/personnel/level', [App\Http\Controllers\Admin\PersonnelController::class, 'update_level'])->name('update.level');
 	Route::get('/personnel/fillter', [App\Http\Controllers\Admin\PersonnelController::class, 'fillter'])->name('fillter');
 	Route::group(['middleware' => 'auth'], function () {
 		// Route::get('department', 'DepartmentController@Index');

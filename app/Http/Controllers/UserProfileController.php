@@ -11,11 +11,12 @@ use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
 {
+
     public function show()
     {
         $birthDate = Auth::user()->date_of_birth;
         $users = User::find(Auth::user()->id);
-        $phongbans = Department::getDepartments();
+        $phongbans = Department::all();
         $postions = Position::all();
         $age = floor((time() - strtotime($birthDate)) / 31556926);
         return view('pages.user-profile', compact('users', 'postions', 'phongbans'))->with('age', $age);
