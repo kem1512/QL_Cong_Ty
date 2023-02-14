@@ -174,8 +174,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary btn-sm ms-auto"><i
-                                class="fa-solid fa-magnifying-glass"></i>Gia Phả Công Ty</button>
+                            <a class="btn btn-primary btn-sm ms-auto" href="department">Quay Lại</a>
                         </div>
                     </div>
                     <div class="card-body pt-0 pb-2">
