@@ -1,9 +1,21 @@
 var fillterst;
 var fillterdp;
-var dbclick = 0;
-var emclick = 0;
-var phoneclick = 0;
-var abclick = 0;
+var num;
+var dbclick = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+];
 // Ajax csrf_token
 $.ajaxSetup({
     headers: {
@@ -148,13 +160,86 @@ function getdetail(id) {
         },
     });
 }
+//GET Personnel View
+function getdetailview(id) {
+    $.ajax({
+        url: "/personnel/edit",
+        method: "GET",
+        data: {
+            id: id,
+        },
+        success: function (result) {
+            var nhansu = result.data;
+            if (nhansu.img_url == null) {
+                nhansu.img_url = "avatar2.png";
+            }
+            $("#img_url")
+                .attr("src", "./img/" + nhansu.img_url)
+                .prop("disabled", true);
+            $("#id_user").val(nhansu.id).attr("disabled", true);
+            $("#about").val(nhansu.about).attr("disabled", true);
+            $("#gender").val(nhansu.gender).attr("disabled", true);
+            $("#title").val(nhansu.title).attr("disabled", true);
+            $("#personnel_codeu").val(nhansu.personnel_code);
+            $("#fullnameu").val(nhansu.fullname).attr("disabled", true);
+            $("#phoneu").val(nhansu.phone).attr("disabled", true);
+            $("#emailu").val(nhansu.email).attr("disabled", true);
+            $("#passwordu").val(nhansu.password).attr("disabled", true);
+            $("#department_idu")
+                .val(nhansu.department_id)
+                .attr("disabled", true);
+            $("#date_of_birthu")
+                .val(nhansu.date_of_birth)
+                .attr("disabled", true);
 
+            $("#position_idu").val(nhansu.position_id).attr("disabled", true);
+            $("#recruitment_dateu")
+                .val(nhansu.recruitment_date)
+                .prop("disabled", true);
+            $("#statusu").val(nhansu.status).prop("disabled", true);
+            $("#addressup").val(nhansu.address).prop("disabled", true);
+        },
+        error: function (error) {
+            onAlertError("Vui lòng kiểm tra và thử lại !");
+        },
+    });
+}
+//Active form
+$(document).on("dblclick", ".dbcl_ctl", function () {
+    var id_clicked = "#" + $(this).attr("id");
+    if (id_clicked == "#fullname_profile") {
+        num = 0;
+    } else if (id_clicked == "#department_id_profile") {
+        num = 1;
+    } else if (id_clicked == "#email_profile") {
+        num = 2;
+    } else if (id_clicked == "#phone_profile") {
+        num = 3;
+    } else if (id_clicked == "#date_of_birth_profile") {
+        num = 4;
+    } else if (id_clicked == "#gender_profile") {
+        num = 5;
+    } else if (id_clicked == "#address_profile") {
+        num = 6;
+    } else if (id_clicked == "#position_id_profile") {
+        num = 7;
+    } else if (id_clicked == "#about_profile") {
+        num = 8;
+    }
+    if (dbclick[num] == true) {
+        $(id_clicked).prop("disabled", true);
+        dbclick[num] = false;
+    } else {
+        $(id_clicked).prop("disabled", false);
+        dbclick[num] = true;
+    }
+});
 //UPDATE
 $(document).ready(function () {
     $("#form_update").on("submit", function (e) {
         e.preventDefault();
         let formData = new FormData(this);
-        console.log(formData);
+        // console.log(formData);
         $.ajax({
             type: "POST",
             url: "/personnel",
@@ -162,8 +247,12 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: (response) => {
-                onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
-                $("#body_query").html(response.body);
+                if (response.status == "error") {
+                    onAlertError(response.message);
+                } else {
+                    onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
+                    $("#body_query").html(response.body);
+                }
             },
             error: function (error) {
                 onAlertError(error.responseJSON.message);
@@ -246,60 +335,78 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+//edit level
+$(document).on("change", ".read-checkbox-level", function () {
+    var id = $(this).attr("level");
+    var st = $(this).is(":checked");
+    console.log(id);
+    console.log(st);
+    var level;
+    if (st == true) {
+        level = 1;
+    } else {
+        level = 0;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/personnel/level",
+        data: {
+            id: id,
+            level: level,
+        },
+        success: (response) => {
+            if (response.status == "error") {
+                onAlertError(response.message);
+            } else {
+                onAlertSuccess(response.message);
+                $("#body_query").html(response.body);
+            }
+        },
+        error: function (error) {
+            onAlertError(error.responseJSON.message);
+        },
+    });
+});
 
+//UPDATE profile
 $(document).ready(function () {
-    var fullname_dbclick = $("#fullname_profile").first();
-    var email_dbclick = $("#email_profile").first();
-    var phone_dbclick = $("#phone_profile").first();
-    var address_dbclick = $("#address_profile").first();
-    var about_dbclick = $("#about_profile").first();
-    fullname_dbclick.dblclick(function () {
-        if (dbclick == 1) {
-            $("#fullname_profile").prop("readonly", true);
-            dbclick = 0;
-        } else if (dbclick == 0) {
-            $("#fullname_profile").prop("readonly", false);
-            dbclick = 1;
-        }
-    });
-    about_dbclick.dblclick(function () {
-        if (abclick == 1) {
-            $("#about_profile").prop("readonly", true);
-            abclick = 0;
-        } else if (dbclick == 0) {
-            $("#about_profile").prop("readonly", false);
-            abclick = 1;
-        }
-    });
-
-    email_dbclick.dblclick(function () {
-        if (emclick == 1) {
-            $("#email_profile").prop("readonly", true);
-            emclick = 0;
-        } else if (dbclick == 0) {
-            $("#email_profile").prop("readonly", false);
-            emclick = 1;
-        }
-    });
-
-    phone_dbclick.dblclick(function () {
-        if (phoneclick == 1) {
-            $("#phone_profile").prop("readonly", true);
-            phoneclick = 0;
-        } else if (dbclick == 0) {
-            $("#phone_profile").prop("readonly", false);
-            phoneclick = 1;
-        }
-    });
-
-    address_dbclick.dblclick(function () {
-        if (phoneclick == 1) {
-            $("#address_profile").prop("readonly", true);
-            phoneclick = 0;
-        } else if (dbclick == 0) {
-            $("#address_profile").prop("readonly", false);
-            phoneclick = 1;
-        }
+    $("#form_update_profile").on("submit", function (e) {
+        e.preventDefault();
+        var fullname = $("#fullname_profile").val();
+        var email = $("#email_profile").val();
+        var phone = $("#phone_profile").val();
+        var date_of_birth = $("#date_of_birth_profile").val();
+        var gender = $("#gender_profile").val();
+        var address = $("#address_profile").val();
+        var position_id = $("#position_id_profile").val();
+        var department_id = $("#department_id_profile").val();
+        var about = $("#about_profile").val();
+        $.ajax({
+            type: "POST",
+            url: "/personnel/profile",
+            data: {
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                date_of_birth: date_of_birth,
+                gender: gender,
+                address: address,
+                position_id: position_id,
+                department_id: department_id,
+                about: about,
+            },
+            success: (response) => {
+                if (response.status == "error") {
+                    onAlertError(response.message);
+                } else {
+                    onAlertSuccess("Thông tin của bạn đã được sửa đổi !");
+                    $("#body_query").html(response.body);
+                }
+            },
+            error: function (error) {
+                onAlertError(error.responseJSON.message);
+            },
+        });
     });
 });
 

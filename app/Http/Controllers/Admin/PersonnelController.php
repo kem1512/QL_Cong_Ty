@@ -26,40 +26,21 @@ class PersonnelController extends Controller
             $user->status = 1;
             $user->save();
         }
-
-<<<<<<< HEAD
-    
-        //get user
-        if ($rq->ajax()) {
-            $data = User::leftjoin('departments', 'users.department_id', 'departments.id')
-            ->select('users.*', 'departments.name')->paginate(8);
-=======
-
         //get user
         if ($rq->ajax()) {
             $data = User::leftjoin('departments', 'users.department_id', 'departments.id')
                 ->select('users.*', 'departments.name')->paginate(8);
->>>>>>> NhanSu
             $body = User::UserBuild($data);
             return response()->json(['body' => $body]);
         };
         $phongbans = Department::getDepartments();
         // dd($phongbans);
         $postions = Position::all();
-
-<<<<<<< HEAD
-        
-        //join chỉ lấy phần chung | leftjoin lấy cả chung và riêng
-        $nhansu = User::leftjoin('departments', 'users.department_id', 'departments.id')
-        ->select('users.*', 'departments.name')->paginate(8);
-        return view('pages.personnel.personnel', compact('phongbans', 'postions', 'nhansu'));
-=======
         $level = Auth::user()->level;
         //join chỉ lấy phần chung | leftjoin lấy cả chung và riêng
         $nhansu = User::leftjoin('departments', 'users.department_id', 'departments.id')
             ->select('users.*', 'departments.name')->paginate(8);
         return view('pages.personnel.personnel', compact('phongbans', 'postions', 'nhansu', 'level'));
->>>>>>> NhanSu
     }
 
     /**
@@ -95,62 +76,20 @@ class PersonnelController extends Controller
      */
     public function update(Request $request)
     {
-<<<<<<< HEAD
-        $request->validate([
-            'img_url'=>'image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=3000,max_height=3000',
-            'fullname'=>'required|min:3|max:255',
-            'email'=>'required|email',
-            'date_of_birth'=>'date|required',
-            'recruitment_date'=>'required|date',
-            'status'=>'required|max:2',
-            'title'=>'required|min:3|max:100',
-            'gender'=>'required|max:2'
-        ],[
-            'fullname.min'=>'Tên phải có hơn 3 ký tự !',
-            'fullname.required'=>'Tên không được để trống !',
-            'email.email'=>'Email không đúng định dạng !',
-            'email.required'=>'Email không được để trống !',
-            'date_of_birth.required'=>'Ngày sinh không được để trống !',
-            'date_of_birth.date'=>'Ngày sinh không đúng định dạng !',
-            'recruitment_date.date'=>'Ngày tuyển dụng không đúng định dạng !',
-            'recruitment_date.required'=>'Ngày tuyển dụng không được để trống !',
-            'status.required'=>'Trạng Thái không được để trống !',
-            'status.max'=>'Trạng Thái không được lớn hơn 2 ký tự !',
-            'title.required'=>'Chức danh không được để trống !',
-            'title.max'=>'Chức danh quá dài !',
-            'title.min'=>'Chức danh quá ngắn !',
-            'gender.required'=>'giới tính không để trống !',
-            'gender.max'=>'sai định dạng giới tính !',
-            'img_url.image'=>'File ảnh không đúng định dạng!',
-            'img_url.mimes'=>'Ảnh phải có đuôi jpg,png,jpeg,gif,svg !',
-            'img_url.max'=>'Dung lượng ảnh quá lớn !',
-            'img_url.dimensions'=>'Ảnh quá lớn hoặc quá nhỏ !'
-        ]);
 
+        // bug tuổi
         $user = User::findOrFail($request->id);
-
-        if (!$request->img_url=='') {
-        $fileName = time().'.'.$request->img_url->extension();
-        $request->img_url->move(public_path('file'), $fileName);
-        $user->img_url = $fileName;
-        }
-        // dd($user);
-        $user->gender=$request->gender;
-        $user->about=$request->about;
-        $user->title= $request->title;
-=======
         $level = Auth::user()->level;
         if ($level == 0) {
-            return response()->json(['status' => 'error', 'message' => 'Không thể thêm do không đủ quyền !']);;
+            return response()->json(['status' => 'error', 'message' => 'Không thể thêm do không đủ quyền !']);
         }
-        $user = User::findOrFail($request->id);
 
-        // dd($user->date_of_birth);
         $age = floor((time() - strtotime($request->date_of_birth)) / 31556926);
         // dd($age);
         if ($age < 15) {
-            return response()->json(['status' => 'error', 'message' => 'Tuổi của nhân sự phải lớn hơn 15 !']);;
+            return response()->json(['status' => 'error', 'message' => 'Tuổi của nhân sự phải lớn hơn 15 !']);
         }
+
         if ($user->email == $request->email) {
             $request->validate([
                 'img_url' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=3000,max_height=3000',
@@ -243,7 +182,6 @@ class PersonnelController extends Controller
         $user->gender = $request->gender;
         $user->about = $request->about;
         $user->title = $request->title;
->>>>>>> NhanSu
         $user->fullname = $request->fullname;
         $user->phone = $request->phone;
         $user->email = $request->email;
@@ -256,21 +194,21 @@ class PersonnelController extends Controller
         $user->address = $request->address;
         $user->save();
         $nhansu2 = User::leftjoin('departments', 'users.department_id', 'departments.id')
-<<<<<<< HEAD
-        ->select('users.*', 'departments.name')->paginate(8);
-        $body = User::UserBuild($nhansu2);
-        return response()->json(['status' => 'succes','body' => $body]);
-    }
-
-=======
             ->select('users.*', 'departments.name')->paginate(8);
         $body = User::UserBuild($nhansu2);
         return response()->json(['status' => 'succes', 'body' => $body]);
     }
-
-
-
->>>>>>> NhanSu
+    public function update_level(Request $request)
+    {
+        if (!Auth::user()->level == 2) {
+            return response()->json(['status' => 'error', 'message' => 'Bạn không đủ thẩm quyền !']);
+        } else {
+            $user = User::find($request->id);
+            $user->level = $request->level;
+            $user->save();
+            return response()->json(['status' => 'success', 'message' => 'Thay đổi đã được áp dụng !']);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -287,9 +225,6 @@ class PersonnelController extends Controller
         //check user
         $id = $rq->input('count_type');
         $userDelete = Auth::user()->id;
-        // if ( ) {
-        //     # code...
-        // }
         if ($userDelete == $id) {
             return response()->json(['status' => 'error', 'message' => 'Bạn không thể xoá chính bạn !']);
         } else {

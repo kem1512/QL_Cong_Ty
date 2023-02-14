@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->integer('status')->default(0);
             $table->date('recruitment_date')->nullable();
+            $table->string('about')->nullable();
+            $table->string('title')->nullable();
             $table->string('img_url')->nullable();
             $table->integer('gender')->default(0);
             $table->integer('level')->default(0);
